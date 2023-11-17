@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pp.rsmmm.domain.jwt.dto.TokenResponseDto;
+import pp.rsmmm.domain.jwt.entity.RefreshToken;
+import pp.rsmmm.domain.jwt.repository.RefreshTokenRepository;
 import pp.rsmmm.domain.member.dto.SignInRequestDto;
 import pp.rsmmm.domain.member.dto.SignUpRequestDto;
 import pp.rsmmm.domain.member.dto.SignUpResponseDto;
@@ -22,6 +24,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
@@ -62,5 +65,29 @@ public class MemberService {
 
         // 액세스 토큰 생성, 발급
         return TokenResponseDto.of(tokenProvider.issueToken(member, "access"));
+    }
+
+    @Transactional
+    public String renewToken(String refreshToken) {
+
+        // 1. 현재 사용자의 memberName 찾기
+        String memberName = tokenProvider.getMemberNameFromToken();
+
+        // 2. 주어진 refresh token 유효성 검사
+        if (!tokenProvider.validateToken(refreshToken)) {
+            throw new IllegalArgumentException("유효하지 않은 리프레시 토큰입니다.");
+        }
+
+        // 3. 리프레스 토큰 생성 및 저장
+        RefreshToken newRefreshToken = new RefreshToken(refreshToken, memberName);
+        refreshTokenRepository.save(newRefreshToken);
+
+        // 4. 유효기간이 연장된 새로운 액세스 토큰 발행
+        Member member = memberRepository.findByName(memberName)
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
+
+        String newAccessToken = tokenProvider.issueToken(member, "access");
+
+        return newAccessToken;
     }
 }

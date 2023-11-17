@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
 
     // 사용자 권한 정보 (현재 사용자 권한은 세분화되어 있지 않음.)
-    public static final String AUTH = "roles";
+    public static final String AUTH = "authorities"; // 토큰 claim에 사용자 권한을 입력할 key 값과 일치시켜준다
 
     // JWT 서명용 비밀키
     private final String SECRET;
@@ -83,8 +83,10 @@ public class TokenProvider implements InitializingBean {
                 .setSubject(member.getName())
                 .setExpiration(expiry)
                 .setIssuedAt(new Date())
-                // Claim 지정(clientId 저장/ 사용자 권한을 다양화할 경우, 사용자 권한을 claim에 포함시켜야 함.)
-                .addClaims(Map.of("authorities", member.getAuthority()))
+                // Claim 지정
+                .addClaims(Map.of(
+                        "name", member.getName(),
+                        "authorities", member.getAuthority()))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -104,10 +106,10 @@ public class TokenProvider implements InitializingBean {
             log.info("토큰 : {}", token);
             return true;
         } catch (ExpiredJwtException e) {
-            log.info("JWT토큰 사용기한이 만료되었습니다 : {}", token);
+            log.info("토큰 사용기한이 만료되었습니다 : {}", token);
             return false;
         } catch (Exception e) {
-            log.info("JWT토큰이 유효하지 않습니다 : {} / {}", token, e);
+            log.info("토큰이 유효하지 않습니다 : {} / {}", token, e);
             return false;
         }
     }
@@ -126,11 +128,11 @@ public class TokenProvider implements InitializingBean {
 
             if (authValue != null && !authValue.isEmpty()) {
 
-                String[] roles = claims.get(AUTH, String[].class);
+                String roles = claims.get(AUTH, String.class);
 
-                Set<SimpleGrantedAuthority> authorities = Arrays.stream(roles)
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toSet());
+                Set<SimpleGrantedAuthority> authorities = Collections.singleton(
+                        new SimpleGrantedAuthority(authValue)
+                );
 
                 return new UsernamePasswordAuthenticationToken(
                         new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities),
@@ -162,7 +164,7 @@ public class TokenProvider implements InitializingBean {
     /**
      * 액세스 토큰의 claim에서 (member) name을 가져오기
      */
-    public String getClientIdFromToken() {
+    public String getMemberNameFromToken() {
 
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -171,7 +173,7 @@ public class TokenProvider implements InitializingBean {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7); // "Bearer " 프리픽스 제거
                 Claims claims = getClaims(token);
-                return claims.get("name", String.class);
+                return claims.get("name", String.class); // 토큰 생성 시, subject에 memberName을 입
             } else {
                 log.info("사용자 인증에 필요한 토큰이 없거나 제대로 된 형태가 아닙니다.");
                 return null;
