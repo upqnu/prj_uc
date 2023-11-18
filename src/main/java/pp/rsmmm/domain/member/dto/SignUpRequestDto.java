@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SignUpRequestDto {
 
-    @NotBlank(message = "사용하실 사용자명을 입력해 주세요.")
     @Size(min = 6, message = "아이디는 6자 이상 입력해주세요")
     @Pattern(regexp = "^[0-9a-zA-Z]*$", message = "아이디는 숫자와 영문만 사용할 수 있습니다")
     private String name;

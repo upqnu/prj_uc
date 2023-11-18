@@ -47,17 +47,16 @@ class MemberControllerTest extends IntegrationTest {
         SignUpRequestDto signUpRequestDto = SignUpRequestDto.of(name, password, email);
 
         // when
-        ResultActions resultActions = mvc.perform(
+        mvc.perform(
                 post("/api/members/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signUpRequestDto))
-                );
-
-        // then
-        resultActions
+                )
+                // then
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("$.status").exists())
+                .andExpect(jsonPath("$.message").exists())
         ;
     }
 
