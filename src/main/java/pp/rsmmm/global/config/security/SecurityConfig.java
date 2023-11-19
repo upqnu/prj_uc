@@ -54,9 +54,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/", "/h2-console/**", "/swagger-ui/**", "/api/member/sign-up", "/api/member/sign-in"
+                                "/", "/h2-console/**", "/swagger-ui/**",
+                                "/api/member/sign-up", "/api/member/sign-in"
                         ).permitAll()
                         // 권한 설정에 따라 페이지별로 적절한 권한을 부여할 것
+                        .requestMatchers("/api/teams/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
