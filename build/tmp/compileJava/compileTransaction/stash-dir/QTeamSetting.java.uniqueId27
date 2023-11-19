@@ -35,11 +35,7 @@ public class QTeamSetting extends EntityPathBase<TeamSetting> {
 
     public final pp.rsmmm.domain.member.entity.QMember member;
 
-    public final StringPath memberName = createString("memberName");
-
     public final pp.rsmmm.domain.team.entity.QTeam team;
-
-    public final StringPath teamName = createString("teamName");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

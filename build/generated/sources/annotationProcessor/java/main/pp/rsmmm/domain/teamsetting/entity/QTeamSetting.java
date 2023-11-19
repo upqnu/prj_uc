@@ -29,9 +29,7 @@ public class QTeamSetting extends EntityPathBase<TeamSetting> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final BooleanPath isLeader = createBoolean("isLeader");
-
-    public final BooleanPath isMate = createBoolean("isMate");
+    public final EnumPath<InviteStatus> inviteStatus = createEnum("inviteStatus", InviteStatus.class);
 
     public final pp.rsmmm.domain.member.entity.QMember member;
 

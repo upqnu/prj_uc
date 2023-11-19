@@ -21,10 +21,6 @@ public class TeamSetting extends BaseEntity {
     @Column(name = "team_setting_id")
     private Long id;
 
-    private boolean isLeader;
-
-    private boolean isMate;
-
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
@@ -33,12 +29,14 @@ public class TeamSetting extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Enumerated(EnumType.STRING)
+    private InviteStatus inviteStatus;
+
     @Builder
-    public TeamSetting(boolean isLeader, boolean isMate, Team team, Member member) {
-        this.isLeader = isLeader;
-        this.isMate = isMate;
+    public TeamSetting(Team team, Member member, InviteStatus inviteStatus) {
         this.team = team;
         this.member = member;
+        this.inviteStatus = inviteStatus;
     }
 
 }

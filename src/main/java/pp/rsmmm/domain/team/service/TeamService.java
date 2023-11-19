@@ -44,9 +44,10 @@ public class TeamService {
 
         // 팀 구성(TeamSetting) 생성 및 저장
         String memberName = tokenProvider.getMemberNameFromToken();
-        System.out.println("memberName :" + memberName);
+
         Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new EntityNotFoundException("팀을 생성한 사용자를 칮을 수 없습니다."));
+
         teamSettingService.createTeamSetting(member, team);
 
         // 팀 생성 통보
