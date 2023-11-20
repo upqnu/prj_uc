@@ -129,3 +129,63 @@ Content-Type: application/json
 }
 ```
 </details>
+<details>
+<summary>팀원으로 초대 </summary>
+
+#### Request
+```javascript
+  POST /api/teams/{teamId}/invite
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+Query Parameter
+
+| Key               | Value type  | Value Description           |
+|:------------------|:------------|:----------------------------|
+| invitedMemberName | `String`    | **Required**. Member's name |
+
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: text/plain;charset=UTF-8
+
+    "member13님을 성공적으로 초대하였습니다."
+
+```
+</details>
+<details>
+<summary>팀원 초대에 대한 승락 또는 거절 </summary>
+
+#### Request
+```javascript
+  POST /api/teams/{teamId}/invitation/{inviteeId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                       |
+|:-----|:-------|:----------------------------------|
+| `id` | `Long` | **Required**. Invited Member's ID |
+
+Query Parameter
+
+| Key    | Value type | Value Description           |
+|:-------|:-----------|:----------------------------|
+| accept | `boolean`  | **Required**. true or false |
+
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: text/plain;charset=UTF-8
+
+    "팀원 초대를 수락하셨습니다." or "팀원 초대를 거절하셨습니다."
+
+```
+</details>
