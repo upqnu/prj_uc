@@ -1,5 +1,8 @@
 package pp.rsmmm.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +42,7 @@ public class Member extends BaseEntity {
         this.authority = Authority.ROLE_MEMBER;
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<TeamSetting> teamSettingList;
 
