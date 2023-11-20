@@ -26,6 +26,11 @@ public class MemberService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    /**
+     * 회원 가입 로직
+     * @param signUpRequestDto
+     * @return
+     */
     @Transactional
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
 
@@ -53,6 +58,11 @@ public class MemberService {
                 .build();
     }
 
+    /**
+     * 로그인 및 액세스 토큰 발급 로직
+     * @param signInRequestDto
+     * @return
+     */
     @Transactional
     public TokenResponseDto signIn(SignInRequestDto signInRequestDto) {
 
@@ -67,6 +77,11 @@ public class MemberService {
         return TokenResponseDto.of(tokenProvider.issueToken(member, "access"));
     }
 
+    /**
+     * 리프레시 토큰 통한 액세스 토큰 유효기한 연장 로직
+     * @param refreshToken
+     * @return
+     */
     @Transactional
     public String renewToken(String refreshToken) {
 

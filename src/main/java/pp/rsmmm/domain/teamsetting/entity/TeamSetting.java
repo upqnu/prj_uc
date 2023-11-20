@@ -1,9 +1,8 @@
 package pp.rsmmm.domain.teamsetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pp.rsmmm.domain.member.entity.Member;
 import pp.rsmmm.domain.progress.entity.Progress;
 import pp.rsmmm.domain.team.entity.Team;
@@ -11,6 +10,7 @@ import pp.rsmmm.global.config.model.BaseEntity;
 
 import java.util.List;
 
+@ToString(exclude = "member")
 @Getter
 @Entity
 @NoArgsConstructor
@@ -21,14 +21,16 @@ public class TeamSetting extends BaseEntity {
     @Column(name = "team_setting_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private InviteStatus inviteStatus;
 
