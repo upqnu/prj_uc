@@ -19,7 +19,7 @@
 배포 : ![Static Badge](https://img.shields.io/badge/Gradle-039BC6) <br/>
 
 ## API Reference
-### Member
+### _Member_
 <details>
 <summary>회원가입</summary>
 
@@ -101,7 +101,7 @@ Content-Type: application/json
 ```
 </details>
 
-### Team
+### _Team_
 <details>
 <summary>팀 생성 </summary>
 
@@ -187,5 +187,40 @@ Query Parameter
 
     "팀원 초대를 수락하셨습니다." or "팀원 초대를 거절하셨습니다."
 
+```
+</details>
+
+### _Progress_
+##### (각 팀마다 1개씩 나타나는 칸반보드의 Column과 같은 역할)
+
+<details>
+<summary>Progress 생성 </summary>
+
+#### Request
+```javascript
+  POST /api/teams/{teamId}/progresses/create
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "name": "ToDo"
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 201
+    Content-Type: application/json
+
+{
+    "status": 201,
+    "message": "<ToDo2> 진행상황이 생성되었습니다."
+}
 ```
 </details>

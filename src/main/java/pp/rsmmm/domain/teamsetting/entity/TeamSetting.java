@@ -21,6 +21,7 @@ public class TeamSetting extends BaseEntity {
     @Column(name = "team_setting_id")
     private Long id;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     private Team team;
