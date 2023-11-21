@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pp.rsmmm.domain.progress.dto.ProgressCreateRequestDto;
 import pp.rsmmm.domain.progress.dto.ProgressCreateResponseDto;
+import pp.rsmmm.domain.progress.entity.Progress;
 import pp.rsmmm.domain.progress.service.ProgressService;
 
 @RequiredArgsConstructor
@@ -26,6 +27,17 @@ public class ProgressController {
     ) {
         ProgressCreateResponseDto progressCreateResponseDto = progressService.createProgress(teamId, progressCreateRequestDto);
         return ResponseEntity.status(progressCreateResponseDto.getStatus()).body(progressCreateResponseDto);
+    }
+
+    /**
+     * 진행상황(Progress) 조회
+     * @param progressId
+     * @return
+     */
+    @GetMapping("/{progressId}")
+    public ResponseEntity<Progress> getProgress(@PathVariable Long teamId, @PathVariable Long progressId) {
+        Progress progress = progressService.getProgress(teamId, progressId);
+        return ResponseEntity.ok(progress);
     }
 
 }

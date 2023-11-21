@@ -41,7 +41,7 @@ public class ProgressService {
         // 현재 로그인한 유저가 해당 팀의 팀장인지 여부 확인
         String leaderName = tokenProvider.getMemberNameFromToken();
         Member leaderMember = memberRepository.findByName(leaderName)
-                .orElseThrow(() -> new EntityNotFoundException("팀장을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("팀장 여부를 확인할 수 없습니다."));
 
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
@@ -73,6 +73,39 @@ public class ProgressService {
                 .status(HttpStatus.CREATED.value())
                 .message("<" + progress.getName() + "> 진행상황이 생성되었습니다.")
                 .build();
+    }
 
+    /**
+     * 진행상황(progress) 조회 로진
+     * @param teamId
+     * @param progressId
+     * @return
+     */
+    @Transactional
+    public Progress getProgress(Long teamId, Long progressId) {
+        // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원인지 확인
+        String memberName = tokenProvider.getMemberNameFromToken();
+        Member member = memberRepository.findByName(memberName)
+                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+
+        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
+        for (TeamSetting teamSetting : teamSettings) {
+            if (teamSetting.getMember() != member) {
+                continue;
+            }
+
+            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
+                throw new IllegalArgumentException("진행상황을 확인할 수 있는 권한이 없습니다.");
+            }
+        }
+
+        // 조회
+        Progress progress = progressRepository.findById(progressId)
+                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
+
+        return progress;
     }
 }
