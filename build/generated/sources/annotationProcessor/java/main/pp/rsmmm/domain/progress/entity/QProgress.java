@@ -29,11 +29,11 @@ public class QProgress extends EntityPathBase<Progress> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath name = createString("name");
+
     public final NumberPath<Integer> numbering = createNumber("numbering", Integer.class);
 
-    public final StringPath status = createString("status");
-
-    public final pp.rsmmm.domain.teamsetting.entity.QTeamSetting teamSetting;
+    public final pp.rsmmm.domain.team.entity.QTeam team;
 
     public final ListPath<pp.rsmmm.domain.ticket.entity.Ticket, pp.rsmmm.domain.ticket.entity.QTicket> ticketList = this.<pp.rsmmm.domain.ticket.entity.Ticket, pp.rsmmm.domain.ticket.entity.QTicket>createList("ticketList", pp.rsmmm.domain.ticket.entity.Ticket.class, pp.rsmmm.domain.ticket.entity.QTicket.class, PathInits.DIRECT2);
 
@@ -58,7 +58,7 @@ public class QProgress extends EntityPathBase<Progress> {
 
     public QProgress(Class<? extends Progress> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.teamSetting = inits.isInitialized("teamSetting") ? new pp.rsmmm.domain.teamsetting.entity.QTeamSetting(forProperty("teamSetting"), inits.get("teamSetting")) : null;
+        this.team = inits.isInitialized("team") ? new pp.rsmmm.domain.team.entity.QTeam(forProperty("team")) : null;
     }
 
 }

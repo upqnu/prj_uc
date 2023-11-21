@@ -1,5 +1,6 @@
 package pp.rsmmm.domain.team.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Team extends BaseEntity {
         this.kanban = kanban;
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "team")
     private List<TeamSetting> teamSettingList;
 

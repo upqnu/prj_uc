@@ -19,7 +19,7 @@
 배포 : ![Static Badge](https://img.shields.io/badge/Gradle-039BC6) <br/>
 
 ## API Reference
-### Member
+### _Member_
 <details>
 <summary>회원가입</summary>
 
@@ -101,7 +101,7 @@ Content-Type: application/json
 ```
 </details>
 
-### Team
+### _Team_
 <details>
 <summary>팀 생성 </summary>
 
@@ -187,5 +187,111 @@ Query Parameter
 
     "팀원 초대를 수락하셨습니다." or "팀원 초대를 거절하셨습니다."
 
+```
+</details>
+
+### _Progress_
+##### (각 팀마다 1개씩 나타나는 칸반보드의 Column과 같은 역할)
+
+<details>
+<summary>Progress 생성 </summary>
+
+#### Request
+```javascript
+  POST /api/teams/{teamId}/progresses/create
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "name": "ToDo"
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 201
+    Content-Type: application/json
+
+{
+    "status": 201,
+    "message": "<ToDo2> 진행상황이 생성되었습니다."
+}
+```
+</details>
+<details>
+<summary>Progress 조회 </summary>
+
+#### Request
+```javascript
+  GET /api/teams/{teamId}/progresses/{progressId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-21T23:25:08.71499",
+    "updatedAt": "2023-11-21T23:25:08.71499",
+    "id": 1,
+    "name": "ToDo",
+    "numbering": 1,
+    "team": {
+        "createdAt": "2023-11-21T23:04:33.389576",
+        "updatedAt": "2023-11-21T23:04:33.389576",
+        "id": 1,
+        "name": "team1",
+        "kanban": "kanban1",
+        "teamSettingList": [
+            {
+                "createdAt": "2023-11-21T23:04:33.365887",
+                "updatedAt": "2023-11-21T23:04:33.365887",
+                "id": 1,
+                "inviteStatus": "INVITING"
+            },
+            {
+                "createdAt": "2023-11-21T23:04:33.394294",
+                "updatedAt": "2023-11-21T23:04:33.394294",
+                "id": 5,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-21T23:04:33.39466",
+                "updatedAt": "2023-11-21T23:04:33.39466",
+                "id": 6,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-21T23:04:33.395395",
+                "updatedAt": "2023-11-21T23:04:33.395395",
+                "id": 7,
+                "inviteStatus": "RECEIVED"
+            },
+            {
+                "createdAt": "2023-11-21T23:04:33.396089",
+                "updatedAt": "2023-11-21T23:04:33.396089",
+                "id": 8,
+                "inviteStatus": "REFUSED"
+            }
+        ]
+    },
+    "ticketList": []
+}
 ```
 </details>

@@ -53,6 +53,13 @@ public class TeamController {
         return ResponseEntity.ok(invitedMemberName + "님을 성공적으로 초대하였습니다.");
     }
 
+    /**
+     * 팀원 초대에 대해 승낙 또는 거절
+     * @param teamId
+     * @param inviteeId
+     * @param accept
+     * @return
+     */
     @PostMapping("/{teamId}/invitation/{inviteeId}")
     public ResponseEntity<String> respondToInvitation(
             @PathVariable Long teamId, @PathVariable Long inviteeId, @RequestParam(name = "accept") boolean accept
