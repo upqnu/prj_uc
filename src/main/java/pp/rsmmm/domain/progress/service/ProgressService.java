@@ -108,4 +108,32 @@ public class ProgressService {
 
         return progress;
     }
+
+    public void deleteProgress(Long teamId, Long progressId) {
+        // 해당 팀, 진행상황이 존재하는지 확인
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+
+        Progress progress = progressRepository.findById(progressId)
+                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
+
+        // 현재 로그인한 유저가 해당 팀의 팀장인지 여부 확인
+        String leaderName = tokenProvider.getMemberNameFromToken();
+        Member leaderMember = memberRepository.findByName(leaderName)
+                .orElseThrow(() -> new EntityNotFoundException("팀장 여부를 확인할 수 없습니다."));
+
+        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
+        for (TeamSetting teamSetting : teamSettings) {
+            if (teamSetting.getInviteStatus() != InviteStatus.INVITING) {
+                continue;
+            }
+
+            if (teamSetting.getMember() != leaderMember) {
+                throw new EntityNotFoundException("팀장만이 [진행상황]을 삭제할 수 있습니다.");
+            }
+        }
+
+        // 진행상황 삭제
+        progressRepository.deleteById(progressId);
+    }
 }

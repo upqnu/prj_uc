@@ -40,4 +40,16 @@ public class ProgressController {
         return ResponseEntity.ok(progress);
     }
 
+    /**
+     * 진행상황(Progress) 삭제
+     * @param teamId
+     * @param progressId
+     * @return
+     */
+    @DeleteMapping("/{progressId}")
+    public ResponseEntity<String> deleteProgress(@PathVariable Long teamId, @PathVariable Long progressId) {
+        progressService.deleteProgress(teamId, progressId);
+        return ResponseEntity.ok("진행상황 삭제가 완료되었습니다.");
+    }
+
 }

@@ -295,3 +295,29 @@ Content-Type: application/json
 }
 ```
 </details>
+<details>
+<summary>Progress 삭제 </summary>
+
+#### Request
+```javascript
+  DELETE /api/teams/{teamId}/progresses/{progressId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "message": "진행상황 삭제가 완료되었습니다."
+}
+```
+</details>
