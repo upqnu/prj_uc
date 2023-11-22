@@ -27,9 +27,6 @@ public class Progress extends BaseEntity {
     @Column(nullable = false)
     private Integer numbering;
 
-//    @Column(nullable = false)
-//    private Long teamId;
-
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
@@ -48,12 +45,5 @@ public class Progress extends BaseEntity {
     public void progressOrderUpdate(Integer numbering) {
         this.numbering = numbering;
     }
-
-    @OneToMany(mappedBy = "progress")
-    private List<Ticket> ticketList;
-
-//    @ManyToOne
-//    @JoinColumn(name = "team_setting_id")
-//    private TeamSetting teamSetting;
 
 }

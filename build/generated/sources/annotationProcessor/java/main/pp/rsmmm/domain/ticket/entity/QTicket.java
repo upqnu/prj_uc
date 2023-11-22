@@ -31,6 +31,8 @@ public class QTicket extends EntityPathBase<Ticket> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
+
     public final NumberPath<Integer> numbering = createNumber("numbering", Integer.class);
 
     public final NumberPath<Double> personHour = createNumber("personHour", Double.class);
@@ -38,8 +40,6 @@ public class QTicket extends EntityPathBase<Ticket> {
     public final pp.rsmmm.domain.progress.entity.QProgress progress;
 
     public final StringPath tag = createString("tag");
-
-    public final pp.rsmmm.domain.teamsetting.entity.QTeamSetting teamSetting;
 
     public final StringPath title = createString("title");
 
@@ -65,7 +65,6 @@ public class QTicket extends EntityPathBase<Ticket> {
     public QTicket(Class<? extends Ticket> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.progress = inits.isInitialized("progress") ? new pp.rsmmm.domain.progress.entity.QProgress(forProperty("progress"), inits.get("progress")) : null;
-        this.teamSetting = inits.isInitialized("teamSetting") ? new pp.rsmmm.domain.teamsetting.entity.QTeamSetting(forProperty("teamSetting"), inits.get("teamSetting")) : null;
     }
 
 }

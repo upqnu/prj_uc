@@ -35,8 +35,6 @@ public class QProgress extends EntityPathBase<Progress> {
 
     public final pp.rsmmm.domain.team.entity.QTeam team;
 
-    public final ListPath<pp.rsmmm.domain.ticket.entity.Ticket, pp.rsmmm.domain.ticket.entity.QTicket> ticketList = this.<pp.rsmmm.domain.ticket.entity.Ticket, pp.rsmmm.domain.ticket.entity.QTicket>createList("ticketList", pp.rsmmm.domain.ticket.entity.Ticket.class, pp.rsmmm.domain.ticket.entity.QTicket.class, PathInits.DIRECT2);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 

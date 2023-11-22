@@ -477,3 +477,77 @@ Content-Type: application/json
 }
 ```
 </details>
+
+### _Ticket_
+<details>
+<summary>Ticket 생성 </summary>
+
+#### Request
+```javascript
+  POST /api/teams/{teamId}/progresses/{progressId}/tickets/create
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+| Path | Type   | Description               |
+|:-----|:-------|:--------------------------|
+| `id` | `Long` | **Required**. Ticket's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "title": "VoC",
+    "tag": "PM",
+    "personHour": 2,
+    "dueDate": "2023-11-23T17:30:00"
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 201
+    Content-Type: application/json
+
+{
+    "status": 201,
+    "message": "<VoC> 티켓이 생성되었습니다."
+}
+```
+</details>
+<details>
+<summary>Ticket 삭제 </summary>
+
+#### Request
+```javascript
+  DELETE /api/teams/{teamId}/progresses/{progressId}/tickets/{ticketId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+| Path | Type   | Description               |
+|:-----|:-------|:--------------------------|
+| `id` | `Long` | **Required**. Ticket's ID |
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "message": "티켓 삭제가 완료되었습니다."
+}
+```
+</details>
