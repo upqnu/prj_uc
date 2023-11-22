@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pp.rsmmm.domain.progress.dto.ProgressCreateRequestDto;
 import pp.rsmmm.domain.progress.dto.ProgressCreateResponseDto;
+import pp.rsmmm.domain.progress.dto.ProgressNameModifyDto;
 import pp.rsmmm.domain.progress.entity.Progress;
 import pp.rsmmm.domain.progress.service.ProgressService;
 
@@ -50,6 +51,21 @@ public class ProgressController {
     public ResponseEntity<String> deleteProgress(@PathVariable Long teamId, @PathVariable Long progressId) {
         progressService.deleteProgress(teamId, progressId);
         return ResponseEntity.ok("진행상황 삭제가 완료되었습니다.");
+    }
+
+    /**
+     * 진행상황(Progress) 이름 변경
+     * @param progressNameModifyDto
+     * @param teamId
+     * @param progressId
+     * @return
+     */
+    @PutMapping("/{progressId}")
+    public ResponseEntity<Progress> modifyProgressName(
+            @RequestBody ProgressNameModifyDto progressNameModifyDto,
+            @PathVariable Long teamId, @PathVariable Long progressId) {
+        Progress progress = progressService.modifyProgressName(progressNameModifyDto, teamId, progressId);
+        return ResponseEntity.ok(progress);
     }
 
 }

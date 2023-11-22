@@ -321,3 +321,81 @@ Content-Type: application/json
 }
 ```
 </details>
+<details>
+<summary>Progress 이름 수정 </summary>
+
+#### Request
+```javascript
+  PUT /api/teams/{teamId}/progresses/{progressId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+```http
+Content-Type: application/json
+
+{
+    "name": "Done"
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-22T16:51:05.203452",
+    "updatedAt": "2023-11-22T16:51:46.012338",
+    "id": 1,
+    "name": "Done",
+    "numbering": 1,
+    "team": {
+        "createdAt": "2023-11-22T16:50:14.573725",
+        "updatedAt": "2023-11-22T16:50:14.573725",
+        "id": 1,
+        "name": "team1",
+        "kanban": "kanban1",
+        "teamSettingList": [
+            {
+                "createdAt": "2023-11-22T16:50:14.548695",
+                "updatedAt": "2023-11-22T16:50:14.548695",
+                "id": 1,
+                "inviteStatus": "INVITING"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.578702",
+                "updatedAt": "2023-11-22T16:50:14.578702",
+                "id": 5,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.579095",
+                "updatedAt": "2023-11-22T16:50:14.579095",
+                "id": 6,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.579905",
+                "updatedAt": "2023-11-22T16:50:14.579905",
+                "id": 7,
+                "inviteStatus": "RECEIVED"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.580602",
+                "updatedAt": "2023-11-22T16:50:14.580602",
+                "id": 8,
+                "inviteStatus": "REFUSED"
+            }
+        ]
+    },
+    "ticketList": []
+}
+```
+</details>

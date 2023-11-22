@@ -41,6 +41,10 @@ public class Progress extends BaseEntity {
         this.team = team;
     }
 
+    public void progressNameUpdate(String name) {
+        this.name = name;
+    }
+
     @OneToMany(mappedBy = "progress")
     private List<Ticket> ticketList;
 
