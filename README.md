@@ -295,3 +295,185 @@ Content-Type: application/json
 }
 ```
 </details>
+<details>
+<summary>Progress 삭제 </summary>
+
+#### Request
+```javascript
+  DELETE /api/teams/{teamId}/progresses/{progressId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "message": "진행상황 삭제가 완료되었습니다."
+}
+```
+</details>
+<details>
+<summary>Progress 이름 수정 </summary>
+
+#### Request
+```javascript
+  PUT /api/teams/{teamId}/progresses/{progressId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+```http
+Content-Type: application/json
+
+{
+    "name": "Done"
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-22T16:51:05.203452",
+    "updatedAt": "2023-11-22T16:51:46.012338",
+    "id": 1,
+    "name": "Done",
+    "numbering": 1,
+    "team": {
+        "createdAt": "2023-11-22T16:50:14.573725",
+        "updatedAt": "2023-11-22T16:50:14.573725",
+        "id": 1,
+        "name": "team1",
+        "kanban": "kanban1",
+        "teamSettingList": [
+            {
+                "createdAt": "2023-11-22T16:50:14.548695",
+                "updatedAt": "2023-11-22T16:50:14.548695",
+                "id": 1,
+                "inviteStatus": "INVITING"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.578702",
+                "updatedAt": "2023-11-22T16:50:14.578702",
+                "id": 5,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.579095",
+                "updatedAt": "2023-11-22T16:50:14.579095",
+                "id": 6,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.579905",
+                "updatedAt": "2023-11-22T16:50:14.579905",
+                "id": 7,
+                "inviteStatus": "RECEIVED"
+            },
+            {
+                "createdAt": "2023-11-22T16:50:14.580602",
+                "updatedAt": "2023-11-22T16:50:14.580602",
+                "id": 8,
+                "inviteStatus": "REFUSED"
+            }
+        ]
+    },
+    "ticketList": []
+}
+```
+</details>
+<details>
+<summary>Progress 순서 수정 </summary>
+
+#### Request
+```javascript
+  PATCH /api/teams/{teamId}/progresses/{progressId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+```http
+Content-Type: application/json
+
+{
+    "numbering": "3"
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-22T20:12:10.813278",
+    "updatedAt": "2023-11-22T20:14:44.100813",
+    "id": 1,
+    "name": "A",
+    "numbering": 3,
+    "team": {
+        "createdAt": "2023-11-22T20:11:17.494867",
+        "updatedAt": "2023-11-22T20:11:17.494867",
+        "id": 1,
+        "name": "team1",
+        "kanban": "kanban1",
+        "teamSettingList": [
+            {
+                "createdAt": "2023-11-22T20:11:17.470488",
+                "updatedAt": "2023-11-22T20:11:17.470488",
+                "id": 1,
+                "inviteStatus": "INVITING"
+            },
+            {
+                "createdAt": "2023-11-22T20:11:17.499473",
+                "updatedAt": "2023-11-22T20:11:17.499473",
+                "id": 5,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-22T20:11:17.499835",
+                "updatedAt": "2023-11-22T20:11:17.499835",
+                "id": 6,
+                "inviteStatus": "ACCEPTED"
+            },
+            {
+                "createdAt": "2023-11-22T20:11:17.500566",
+                "updatedAt": "2023-11-22T20:11:17.500566",
+                "id": 7,
+                "inviteStatus": "RECEIVED"
+            },
+            {
+                "createdAt": "2023-11-22T20:11:17.501191",
+                "updatedAt": "2023-11-22T20:11:17.501191",
+                "id": 8,
+                "inviteStatus": "REFUSED"
+            }
+        ]
+    },
+    "ticketList": []
+}
+```
+</details>
