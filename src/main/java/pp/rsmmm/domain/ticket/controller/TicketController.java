@@ -14,6 +14,13 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    /**
+     * Ticket 생ㅋ
+     * @param teamId
+     * @param progressId
+     * @param ticketCreateRequestDto
+     * @return
+     */
     @PostMapping("/create")
     public ResponseEntity<TicketResponseDto> createTicket(
             @PathVariable Long teamId, @PathVariable Long progressId,
@@ -22,4 +29,13 @@ public class TicketController {
         TicketResponseDto ticketResponseDto = ticketService.createTicket(teamId, progressId, ticketCreateRequestDto);
         return ResponseEntity.status(ticketResponseDto.getStatus()).body(ticketResponseDto);
     }
+
+    @DeleteMapping("/{ticketId}")
+    public ResponseEntity<String> deleteTicket(
+            @PathVariable Long teamId, @PathVariable Long progressId, @PathVariable Long ticketId
+    ) {
+        ticketService.deleteTicket(teamId, progressId, ticketId);
+        return ResponseEntity.ok("티켓 삭제가 완료되었습니다.");
+    }
+
 }
