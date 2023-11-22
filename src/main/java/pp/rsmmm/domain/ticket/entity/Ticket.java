@@ -1,13 +1,17 @@
 package pp.rsmmm.domain.ticket.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pp.rsmmm.domain.progress.entity.Progress;
 import pp.rsmmm.domain.teamsetting.entity.TeamSetting;
+import pp.rsmmm.domain.ticket.service.TicketService;
 import pp.rsmmm.global.config.model.BaseEntity;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @NoArgsConstructor
 public class Ticket extends BaseEntity {
@@ -30,12 +34,21 @@ public class Ticket extends BaseEntity {
 
     private LocalDateTime dueDate;
 
+    private Long memberId;
+
     @ManyToOne
     @JoinColumn(name = "progress_id")
     private Progress progress;
 
-    @ManyToOne
-    @JoinColumn(name = "team_setting_id")
-    private TeamSetting teamSetting;
+    @Builder
+    public Ticket(String title, Integer numbering, String tag, Double personHour, LocalDateTime dueDate, Progress progress, Long memberId) {
+        this.title = title;
+        this.numbering = numbering;
+        this.tag = tag;
+        this.personHour = personHour;
+        this.dueDate = dueDate;
+        this.progress = progress;
+        this.memberId = memberId;
+    }
 
 }
