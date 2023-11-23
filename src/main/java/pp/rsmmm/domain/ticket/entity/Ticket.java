@@ -1,5 +1,6 @@
 package pp.rsmmm.domain.ticket.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class Ticket extends BaseEntity {
 
     private Long memberId;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "progress_id")
     private Progress progress;

@@ -1,5 +1,6 @@
 package pp.rsmmm.domain.progress.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import pp.rsmmm.domain.teamsetting.entity.TeamSetting;
 import pp.rsmmm.domain.ticket.entity.Ticket;
 import pp.rsmmm.global.config.model.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,11 +33,16 @@ public class Progress extends BaseEntity {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "progress")
+    List<Ticket> ticketList = new ArrayList<>();
+
     @Builder
-    public Progress(String name, Integer numbering, Team team) {
+    public Progress(String name, Integer numbering, Team team, List<Ticket> ticketList) {
         this.name = name;
         this.numbering = numbering;
         this.team = team;
+        this.ticketList = ticketList;
     }
 
     public void progressNameUpdate(String name) {

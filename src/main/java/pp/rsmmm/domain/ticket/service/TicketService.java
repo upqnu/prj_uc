@@ -74,6 +74,7 @@ public class TicketService {
                 .tag(ticketCreateRequestDto.getTag())
                 .personHour(ticketCreateRequestDto.getPersonHour())
                 .dueDate(ticketCreateRequestDto.getDueDate())
+                .progress(progress)
                 .memberId(member.getId())
                 .build();
 
@@ -94,8 +95,8 @@ public class TicketService {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
 
-//        Progress progress = progressRepository.findById(progressId)
-//                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
+        Progress progress = progressRepository.findById(progressId)
+                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
 
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new EntityNotFoundException("티켓을 찾을 수 없습니다."));
