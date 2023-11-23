@@ -53,4 +53,12 @@ public class Ticket extends BaseEntity {
         this.memberId = memberId;
     }
 
+    public void modifyTicket(String title, String tag, Double personHour, LocalDateTime dueDate, Long memberId) {
+        this.title = title;
+        this.tag = tag;
+        this.personHour = personHour;
+        this.dueDate = dueDate;
+        this.memberId = memberId;
+    }
+
 }

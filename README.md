@@ -588,3 +588,53 @@ Content-Type: application/json
 }
 ```
 </details>
+<details>
+<summary>Ticket 수정 </summary>
+
+#### Request
+```javascript
+  PUT /api/teams/{teamId}/progresses/{progressId}/tickets/{ticketId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+| Path | Type   | Description               |
+|:-----|:-------|:--------------------------|
+| `id` | `Long` | **Required**. Ticket's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "title": "fff",
+    "tag": "frontend",
+    "personHour": 5,
+    "dueDate": "2023-11-25T15:30:00",
+    "memberId": 6
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-23T18:52:23.713056",
+    "updatedAt": "2023-11-23T18:53:42.684485",
+    "id": 1,
+    "title": "fff",
+    "numbering": 1,
+    "tag": "frontend",
+    "personHour": 5.0,
+    "dueDate": "2023-11-25T15:30:00",
+    "memberId": 6
+}
+```
+</details>

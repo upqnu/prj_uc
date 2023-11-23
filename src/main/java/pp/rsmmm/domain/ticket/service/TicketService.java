@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import pp.rsmmm.domain.member.entity.Member;
 import pp.rsmmm.domain.member.repository.MemberRepository;
 import pp.rsmmm.domain.progress.entity.Progress;
@@ -17,6 +16,7 @@ import pp.rsmmm.domain.teamsetting.entity.TeamSetting;
 import pp.rsmmm.domain.teamsetting.repository.TeamSettingRepository;
 import pp.rsmmm.domain.ticket.dto.TicketCreateRequestDto;
 import pp.rsmmm.domain.ticket.dto.TicketResponseDto;
+import pp.rsmmm.domain.ticket.dto.TicketModifyDto;
 import pp.rsmmm.domain.ticket.entity.Ticket;
 import pp.rsmmm.domain.ticket.repository.TicketRepository;
 import pp.rsmmm.global.config.jwt.TokenProvider;
@@ -89,6 +89,12 @@ public class TicketService {
         return ticketResponseDto;
     }
 
+    /**
+     * Ticket 삭제 로직
+     * @param teamId
+     * @param progressId
+     * @param ticketId
+     */
     @Transactional
     public void deleteTicket(Long teamId, Long progressId, Long ticketId) {
         // 해당 팀, 진행상황, 티켓이 존재하는지 확인
@@ -119,5 +125,45 @@ public class TicketService {
 
         // 티켓 삭제
         ticketRepository.deleteById(ticketId);
+    }
+
+    @Transactional
+    public Ticket modifyTicketTitle(TicketModifyDto ticketModifyDto, Long teamId, Long progressId, Long ticketId) {
+        // 해당 팀, 진행상황, 티켓이 존재하는지 확인
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+
+        Progress progress = progressRepository.findById(progressId)
+                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
+
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new EntityNotFoundException("티켓을 찾을 수 없습니다."));
+
+        // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원인지 확인
+        String memberName = tokenProvider.getMemberNameFromToken();
+        Member member = memberRepository.findByName(memberName)
+                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
+
+        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
+        for (TeamSetting teamSetting : teamSettings) {
+            if (teamSetting.getMember() != member) {
+                continue;
+            }
+
+            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
+                throw new IllegalArgumentException("진행상황을 확인할 수 있는 권한이 없습니다.");
+            }
+        }
+
+        // 티켓 수정
+        ticket.modifyTicket(
+                ticketModifyDto.getTitle(),
+                ticketModifyDto.getTag(),
+                ticketModifyDto.getPersonHour(),
+                ticketModifyDto.getDueDate(),
+                ticketModifyDto.getMemberId()
+        );
+        ticketRepository.save(ticket);
+        return ticket;
     }
 }
