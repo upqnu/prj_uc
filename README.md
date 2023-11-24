@@ -1,27 +1,27 @@
 # prj_uc : Project under Control
+  
 ## 프로젝트 관리 및 분석 시스템
 - [개요](#개요)
 - [Skils](#skils)
-- [Installation](#Installation)
-- [Running Tests](#running-tests)
 - [API Reference](#api-reference)
 - [프로젝트 진행 및 이슈 관리](#프로젝트-진행-및-이슈-관리)
 - [ERD](#ERD)
 - [구현과정(설계 및 의도)](#구현과정(설계-및-의도))
 - [TIL 및 회고](#til-및-회고)
 - [Authors](#authors)
+  
 ## 개요
 **Proejct under Contorl! 프로젝트 관리 및 분석을 한 번에!** 본 서비스는 기업 내부에서 사용되는 웹 서비스로, 프로젝트 및 작업 관리를 위한 직관적이고 유연한 도구로, 팀 간 협업과 업무 효율성을 향상 시키는데 사용됩니다. <br/>
-
+  
 ## Skils
 언어 및 프레임워크: ![Static Badge](https://img.shields.io/badge/Java-17-darkgreen) ![Static Badge](https://img.shields.io/badge/Spring_boot-REST-darkgreen)<br/>
 데이터베이스 및 테스트: ![Static Badge](https://img.shields.io/badge/h2-2.1.214-blue) ![Static Badge](https://img.shields.io/badge/JUnit-red) <br/>
 배포 : ![Static Badge](https://img.shields.io/badge/Gradle-039BC6) <br/>
-
+  
 ## API Reference
 ### _Member_
 <details>
-<summary>회원가입</summary>
+<summary>회원가입 - click</summary>
 
 #### Request
 ```javascript
@@ -50,7 +50,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>로그인 & 액세스 토큰 발급 </summary>
+<summary>로그인 & 액세스 토큰 발급 - click</summary>
 
 #### Request
 ```javascript
@@ -76,7 +76,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>리프레시 토큰 발급 & 액세스 토큰 갱신 </summary>
+<summary>리프레시 토큰 발급 & 액세스 토큰 갱신 - click </summary>
 
 #### Request
 ```javascript
@@ -103,7 +103,7 @@ Content-Type: application/json
 
 ### _Team_
 <details>
-<summary>팀 생성 </summary>
+<summary>팀 생성 - click </summary>
 
 #### Request
 ```javascript
@@ -130,7 +130,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>팀 조회 </summary>
+<summary>팀 조회 - click </summary>
 
 #### Request
 ```javascript
@@ -155,7 +155,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>팀원으로 초대 </summary>
+<summary>팀원으로 초대 - click </summary>
 
 #### Request
 ```javascript
@@ -183,7 +183,7 @@ Query Parameter
 ```
 </details>
 <details>
-<summary>팀원 초대에 대한 승락 또는 거절 </summary>
+<summary>팀원 초대에 대한 승락 또는 거절 - click </summary>
 
 #### Request
 ```javascript
@@ -219,7 +219,7 @@ Query Parameter
 ##### (각 팀마다 1개씩 나타나는 칸반보드의 Column과 같은 역할)
 
 <details>
-<summary>Progress 생성 </summary>
+<summary>Progress 생성 - click </summary>
 
 #### Request
 ```javascript
@@ -250,7 +250,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Progress 조회 </summary>
+<summary>Progress 조회 - click </summary>
 
 #### Request
 ```javascript
@@ -333,7 +333,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Progress 삭제 </summary>
+<summary>Progress 삭제 - click </summary>
 
 #### Request
 ```javascript
@@ -359,7 +359,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Progress 이름 수정 </summary>
+<summary>Progress 이름 수정 - click </summary>
 
 #### Request
 ```javascript
@@ -437,7 +437,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Progress 순서 수정 </summary>
+<summary>Progress 순서 수정 - click </summary>
 
 #### Request
 ```javascript
@@ -517,7 +517,7 @@ Content-Type: application/json
 
 ### _Ticket_
 <details>
-<summary>Ticket 생성 </summary>
+<summary>Ticket 생성 - click </summary>
 
 #### Request
 ```javascript
@@ -559,7 +559,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Ticket 삭제 </summary>
+<summary>Ticket 삭제 - click </summary>
 
 #### Request
 ```javascript
@@ -589,7 +589,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Ticket 수정 </summary>
+<summary>Ticket 수정 - click </summary>
 
 #### Request
 ```javascript
@@ -639,7 +639,7 @@ Content-Type: application/json
 ```
 </details>
 <details>
-<summary>Ticket 순서 수정 </summary>
+<summary>Ticket 순서 수정 - click </summary>
 
 #### Request
 ```javascript
@@ -685,3 +685,12 @@ Content-Type: application/json
 }
 ```
 </details>
+  
+## ERD
+> ![image](https://github.com/upqnu/prj_uc/assets/101033614/fdcfc301-b0a5-44c2-bd16-2b684f2e277f)
+> - 특정 멤버(member)가 어떤 팀(team)에서는 팀장, 다른 팀에서는 팀원의 역할을 할 수 있다. 그래서 member : team = n : m의 관계이다.
+>   - 따라서 TeamSetting을 member, team 사이에 두어 n:m 관계를 1:n, m:1 관계로 나누면서
+>   - TeamSetting의 InviteStatus 필드의 값에 따라 팀장, 팀원 여부를 판단하게 하였다.
+> - 하나의 팀이 하나의 칸반보드를 가질 수 있다. 따라서 칸반보드는 Team 엔티티의 필드로만 설정하였다. (사실상 칸반보다 = 팀의 개념)
+> - 팀을 만드는 사용자가 해당 팀의 팀장이 된다. 팀장만이 팀에 속하는 진행상황(Progress, 칸반보드에서 column)을 생성할 수 있다.
+  
