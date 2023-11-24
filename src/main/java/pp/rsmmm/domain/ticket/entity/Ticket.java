@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pp.rsmmm.domain.progress.entity.Progress;
-import pp.rsmmm.domain.teamsetting.entity.TeamSetting;
-import pp.rsmmm.domain.ticket.service.TicketService;
 import pp.rsmmm.global.config.model.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -35,14 +33,13 @@ public class Ticket extends BaseEntity {
 
     private LocalDateTime dueDate;
 
+    @Column(nullable = false)
     private Long memberId;
 
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "progress_id")
     private Progress progress;
-
-//    private Integer progressNum = progress.getNumbering();
 
     @Builder
     public Ticket(String title, Integer numbering, String tag, Double personHour, LocalDateTime dueDate, Progress progress, Long memberId) {
@@ -62,11 +59,6 @@ public class Ticket extends BaseEntity {
         this.dueDate = dueDate;
         this.memberId = memberId;
     }
-
-//    public void modifyTicketOrder(Integer numbering, Integer progressNum) {
-//        this.numbering = numbering;
-//        this.progressNum = progressNum;
-//    }
 
     public void ticketOrderUpdate(Integer numbering) {
         this.numbering = numbering;
