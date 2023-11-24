@@ -5,6 +5,8 @@
 - [Skils](#skils)
 - [API Reference](#api-reference)
 - [ERD](#ERD)
+- [프로젝트 진행관리](#프로젝트_진행관리)
+- [Git commit 메시지 컨벤션](#Git_commit_메시지_컨벤션)
   
 ## 개요
 **Proejct under Contorl! 프로젝트 관리 및 분석을 한 번에!** 본 서비스는 기업 내부에서 사용되는 웹 서비스로, 프로젝트 및 작업 관리를 위한 직관적이고 유연한 도구로, 팀 간 협업과 업무 효율성을 향상 시키는데 사용됩니다. <br/>
@@ -690,3 +692,14 @@ Content-Type: application/json
 > - 하나의 팀이 하나의 칸반보드를 가질 수 있다. 따라서 칸반보드는 Team 엔티티의 필드로만 설정하였다. (사실상 칸반보드 = 팀의 개념)
 > - 팀을 만드는 사용자가 해당 팀의 팀장이 된다. 팀장만이 팀에 속하는 진행상황(Progress, 칸반보드에서 column)을 생성할 수 있다.
   
+## 프로젝트 진행 관리
+![image](https://github.com/upqnu/readme_tester/assets/101033614/832372c4-5a3d-4d66-9f14-c423b91a021c)
+  
+## Git commit 메시지 컨벤션
+- `Feat` : 새로운 기능 추가
+- `Fix` : 기능 개선 또는 수정, 버그 수정
+- `Docs` : 문서 수정
+- `Style` : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
+- `Refactor` : 코드 리펙토링
+- `Test` : 테스트 코드, 리펙토링 테스트 코드 추가
+- `Chore` : 빌드 업무 수정, 패키지 매니저 수정
