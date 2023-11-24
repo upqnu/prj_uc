@@ -1,22 +1,45 @@
 package pp.rsmmm.domain.teamsetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.*;
+import pp.rsmmm.domain.member.entity.Member;
 import pp.rsmmm.domain.progress.entity.Progress;
+import pp.rsmmm.domain.team.entity.Team;
 import pp.rsmmm.global.config.model.BaseEntity;
 
 import java.util.List;
 
+@ToString(exclude = "member")
+@Getter
 @Entity
+@NoArgsConstructor
 public class TeamSetting extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @Column(name = "team_setting_id")
+    private Long id;
 
-    private boolean isLeader;
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    private boolean isMate;
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @OneToMany
-    private List<Progress> progressList;
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private InviteStatus inviteStatus;
+
+    @Builder
+    public TeamSetting(Team team, Member member, InviteStatus inviteStatus) {
+        this.team = team;
+        this.member = member;
+        this.inviteStatus = inviteStatus;
+    }
+
 }
