@@ -638,3 +638,50 @@ Content-Type: application/json
 }
 ```
 </details>
+<details>
+<summary>Ticket 순서 수정 </summary>
+
+#### Request
+```javascript
+  PATCH /api/teams/{teamId}/progresses/{progressId}/tickets/{ticketId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+| Path | Type   | Description               |
+|:-----|:-------|:--------------------------|
+| `id` | `Long` | **Required**. Ticket's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "progressNum": 2,
+    "ticketNum": 2
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-24T16:33:48.575983",
+    "updatedAt": "2023-11-24T16:33:48.575983",
+    "id": 2,
+    "title": "ticket_b",
+    "numbering": 2,
+    "tag": "b",
+    "personHour": 1.0,
+    "dueDate": "2023-11-30T10:30:00",
+    "memberId": 1
+}
+```
+</details>

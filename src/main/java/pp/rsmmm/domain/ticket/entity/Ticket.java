@@ -42,6 +42,8 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "progress_id")
     private Progress progress;
 
+//    private Integer progressNum = progress.getNumbering();
+
     @Builder
     public Ticket(String title, Integer numbering, String tag, Double personHour, LocalDateTime dueDate, Progress progress, Long memberId) {
         this.title = title;
@@ -61,4 +63,16 @@ public class Ticket extends BaseEntity {
         this.memberId = memberId;
     }
 
+//    public void modifyTicketOrder(Integer numbering, Integer progressNum) {
+//        this.numbering = numbering;
+//        this.progressNum = progressNum;
+//    }
+
+    public void ticketOrderUpdate(Integer numbering) {
+        this.numbering = numbering;
+    }
+
+    public void changeProgressOfTarget(Progress progress) {
+        this.progress = progress;
+    }
 }

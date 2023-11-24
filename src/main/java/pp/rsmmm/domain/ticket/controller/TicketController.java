@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pp.rsmmm.domain.ticket.dto.TicketCreateRequestDto;
+import pp.rsmmm.domain.ticket.dto.TicketOrderModifyDto;
 import pp.rsmmm.domain.ticket.dto.TicketResponseDto;
 import pp.rsmmm.domain.ticket.dto.TicketModifyDto;
 import pp.rsmmm.domain.ticket.entity.Ticket;
@@ -47,12 +48,37 @@ public class TicketController {
         return ResponseEntity.ok("티켓 삭제가 완료되었습니다.");
     }
 
+    /**
+     * Ticket 수정
+     * @param ticketModifyDto
+     * @param teamId
+     * @param progressId
+     * @param ticketId
+     * @return
+     */
     @PutMapping("{ticketId}")
-    public ResponseEntity<Ticket> modifyTicketTitle(
+    public ResponseEntity<Ticket> modifyTicket(
             @RequestBody TicketModifyDto ticketModifyDto,
             @PathVariable Long teamId, @PathVariable Long progressId, @PathVariable Long ticketId
     ) {
-        Ticket ticket = ticketService.modifyTicketTitle(ticketModifyDto, teamId, progressId, ticketId);
+        Ticket ticket = ticketService.modifyTicket(ticketModifyDto, teamId, progressId, ticketId);
+        return ResponseEntity.ok(ticket);
+    }
+
+    /**
+     * Ticket 순서 수정
+     * @param ticketOrderModifyDto
+     * @param teamId
+     * @param progressId
+     * @param ticketId
+     * @return
+     */
+    @PatchMapping("{ticketId}")
+    public ResponseEntity<Ticket> modifyTicketOrder(
+            @RequestBody TicketOrderModifyDto ticketOrderModifyDto,
+            @PathVariable Long teamId, @PathVariable Long progressId, @PathVariable Long ticketId
+    ) {
+        Ticket ticket = ticketService.modifyTicketOrder(ticketOrderModifyDto, teamId, progressId, ticketId);
         return ResponseEntity.ok(ticket);
     }
 }
