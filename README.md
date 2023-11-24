@@ -5,8 +5,8 @@
 - [Skils](#skils)
 - [API Reference](#api-reference)
 - [ERD](#ERD)
-- [프로젝트 진행관리](#프로젝트_진행관리)
-- [Git commit 메시지 컨벤션](#Git_commit_메시지_컨벤션)
+- [프로젝트 진행관리](#프로젝트-진행관리)
+- [Git commit 메시지 컨벤션](#Git-commit-메시지-컨벤션)
   
 ## 개요
 **Proejct under Contorl! 프로젝트 관리 및 분석을 한 번에!** 본 서비스는 기업 내부에서 사용되는 웹 서비스로, 프로젝트 및 작업 관리를 위한 직관적이고 유연한 도구로, 팀 간 협업과 업무 효율성을 향상 시키는데 사용됩니다. <br/>
