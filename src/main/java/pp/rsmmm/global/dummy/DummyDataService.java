@@ -6,12 +6,16 @@ import org.springframework.stereotype.Service;
 import pp.rsmmm.domain.member.entity.Authority;
 import pp.rsmmm.domain.member.entity.Member;
 import pp.rsmmm.domain.member.repository.MemberRepository;
+import pp.rsmmm.domain.progress.entity.Progress;
+import pp.rsmmm.domain.progress.repository.ProgressRepository;
 import pp.rsmmm.domain.team.entity.Team;
-import pp.rsmmm.domain.team.repository.TeamRepository;
 import pp.rsmmm.domain.teamsetting.entity.InviteStatus;
 import pp.rsmmm.domain.teamsetting.entity.TeamSetting;
 import pp.rsmmm.domain.teamsetting.repository.TeamSettingRepository;
+import pp.rsmmm.domain.ticket.entity.Ticket;
+import pp.rsmmm.domain.ticket.repository.TicketRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,15 +25,16 @@ public class DummyDataService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-    private final TeamRepository teamRepository;
     private final TeamSettingRepository teamSettingRepository;
+    private final ProgressRepository progressRepository;
+    private final TicketRepository ticketRepository;
 
     public void createDummyData() {
         createDummyTeamSettings();
         createDummyMembers();
     }
 
-    private List<TeamSetting> createDummyTeamSettings() {
+    private void createDummyTeamSettings() {
 
         Member member01 = Member.builder()
                 .name("dummy_member01")
@@ -233,10 +238,82 @@ public class DummyDataService {
                 teamSetting11, teamSetting12, teamSetting13, teamSetting14, teamSetting15
         )));
 
-        return teamSettings;
+        List<Progress> progresses = new ArrayList<>();
+
+        Progress progress1 = Progress.builder()
+                .name("Progress_1")
+                .numbering(1)
+                .team(team1)
+                .ticketList(new ArrayList<>())
+                .build();
+
+        Progress progress2 = Progress.builder()
+                .name("Progress_2")
+                .numbering(1)
+                .team(team1)
+                .ticketList(new ArrayList<>())
+                .build();
+
+        progresses.addAll(progressRepository.saveAll(List.of(progress1, progress2)));
+
+        List<Ticket> tickets = new ArrayList<>();
+
+        Ticket ticket_A = Ticket.builder()
+                .title("A")
+                .numbering(1)
+                .tag("frontend")
+                .personHour(4.5)
+                .dueDate(LocalDateTime.of(2023,11,27,11,30, 0))
+                .progress(progress1)
+                .memberId(1L)
+                .build();
+
+        Ticket ticket_B = Ticket.builder()
+                .title("B")
+                .numbering(2)
+                .tag("backend")
+                .personHour(3.5)
+                .dueDate(LocalDateTime.of(2023,11,27,15,30, 0))
+                .progress(progress1)
+                .memberId(1L)
+                .build();
+
+        Ticket ticket_C = Ticket.builder()
+                .title("C")
+                .numbering(3)
+                .tag("database")
+                .personHour(2.5)
+                .dueDate(LocalDateTime.of(2023,11,28,11,30, 0))
+                .progress(progress1)
+                .memberId(1L)
+                .build();
+
+        Ticket ticket_D = Ticket.builder()
+                .title("D")
+                .numbering(4)
+                .tag("PM")
+                .personHour(1.5)
+                .dueDate(LocalDateTime.of(2023,11,28,15,30, 0))
+                .progress(progress2)
+                .memberId(1L)
+                .build();
+
+        Ticket ticket_E = Ticket.builder()
+                .title("E")
+                .numbering(5)
+                .tag("CTO")
+                .personHour(1.0)
+                .dueDate(LocalDateTime.of(2023,11,29,11,30, 0))
+                .progress(progress2)
+                .memberId(1L)
+                .build();
+
+        tickets.addAll(ticketRepository.saveAll(List.of(
+                ticket_A, ticket_B, ticket_C, ticket_D, ticket_E
+        )));
     }
 
-    protected List<Member> createDummyMembers() {
+    protected void createDummyMembers() {
         List<Member> members = new ArrayList<>();
 
         Member member13 = Member.builder()
@@ -298,38 +375,6 @@ public class DummyDataService {
         members.addAll(memberRepository.saveAll(List.of(
                 member13, member14, member15, member16, member17, member18, member19, member20
         )));
-
-        return members;
-    }
-
-    protected List<Team> createDummyTeams() {
-        List<Team> teams = new ArrayList<>();
-
-        Team team5 = Team.builder()
-                .name("team5")
-                .kanban("kanban5")
-                .build();
-
-        Team team6 = Team.builder()
-                .name("team6")
-                .kanban("kanban6")
-                .build();
-
-        Team team7 = Team.builder()
-                .name("team7")
-                .kanban("kanban7")
-                .build();
-
-        Team team8 = Team.builder()
-                .name("team8")
-                .kanban("kanban8")
-                .build();
-
-        teams.addAll(teamRepository.saveAll(List.of(
-                team5, team6, team7, team8
-        )));
-
-        return teams;
     }
 
 }
