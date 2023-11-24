@@ -130,6 +130,31 @@ Content-Type: application/json
 ```
 </details>
 <details>
+<summary>팀 조회 </summary>
+
+#### Request
+```javascript
+  GET /api/teams/{teamId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-23T16:59:31.259798",
+    "updatedAt": "2023-11-23T16:59:31.259798",
+    "id": 1,
+    "inviteStatus": "INVITING"
+}
+```
+</details>
+<details>
 <summary>팀원으로 초대 </summary>
 
 #### Request
@@ -247,51 +272,63 @@ Content-Type: application/json
     Content-Type: application/json
 
 {
-    "createdAt": "2023-11-21T23:25:08.71499",
-    "updatedAt": "2023-11-21T23:25:08.71499",
+    "createdAt": "2023-11-23T17:00:42.005935",
+    "updatedAt": "2023-11-23T17:00:42.005935",
     "id": 1,
-    "name": "ToDo",
+    "name": "QA",
     "numbering": 1,
     "team": {
-        "createdAt": "2023-11-21T23:04:33.389576",
-        "updatedAt": "2023-11-21T23:04:33.389576",
+        "createdAt": "2023-11-23T16:59:31.281974",
+        "updatedAt": "2023-11-23T16:59:31.281974",
         "id": 1,
         "name": "team1",
         "kanban": "kanban1",
         "teamSettingList": [
             {
-                "createdAt": "2023-11-21T23:04:33.365887",
-                "updatedAt": "2023-11-21T23:04:33.365887",
+                "createdAt": "2023-11-23T16:59:31.259798",
+                "updatedAt": "2023-11-23T16:59:31.259798",
                 "id": 1,
                 "inviteStatus": "INVITING"
             },
             {
-                "createdAt": "2023-11-21T23:04:33.394294",
-                "updatedAt": "2023-11-21T23:04:33.394294",
+                "createdAt": "2023-11-23T16:59:31.287628",
+                "updatedAt": "2023-11-23T16:59:31.287628",
                 "id": 5,
                 "inviteStatus": "ACCEPTED"
             },
             {
-                "createdAt": "2023-11-21T23:04:33.39466",
-                "updatedAt": "2023-11-21T23:04:33.39466",
+                "createdAt": "2023-11-23T16:59:31.288001",
+                "updatedAt": "2023-11-23T16:59:31.288001",
                 "id": 6,
                 "inviteStatus": "ACCEPTED"
             },
             {
-                "createdAt": "2023-11-21T23:04:33.395395",
-                "updatedAt": "2023-11-21T23:04:33.395395",
+                "createdAt": "2023-11-23T16:59:31.288853",
+                "updatedAt": "2023-11-23T16:59:31.288853",
                 "id": 7,
                 "inviteStatus": "RECEIVED"
             },
             {
-                "createdAt": "2023-11-21T23:04:33.396089",
-                "updatedAt": "2023-11-21T23:04:33.396089",
+                "createdAt": "2023-11-23T16:59:31.289587",
+                "updatedAt": "2023-11-23T16:59:31.289587",
                 "id": 8,
                 "inviteStatus": "REFUSED"
             }
         ]
     },
-    "ticketList": []
+    "ticketList": [
+        {
+            "createdAt": "2023-11-23T17:01:51.900568",
+            "updatedAt": "2023-11-23T17:01:51.900568",
+            "id": 1,
+            "title": "eee",
+            "numbering": 1,
+            "tag": "frontend",
+            "personHour": 2.0,
+            "dueDate": "2023-11-25T15:30:00",
+            "memberId": 1
+        }
+    ]
 }
 ```
 </details>
@@ -548,6 +585,103 @@ Content-Type: application/json
 
 {
     "message": "티켓 삭제가 완료되었습니다."
+}
+```
+</details>
+<details>
+<summary>Ticket 수정 </summary>
+
+#### Request
+```javascript
+  PUT /api/teams/{teamId}/progresses/{progressId}/tickets/{ticketId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+| Path | Type   | Description               |
+|:-----|:-------|:--------------------------|
+| `id` | `Long` | **Required**. Ticket's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "title": "fff",
+    "tag": "frontend",
+    "personHour": 5,
+    "dueDate": "2023-11-25T15:30:00",
+    "memberId": 6
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-23T18:52:23.713056",
+    "updatedAt": "2023-11-23T18:53:42.684485",
+    "id": 1,
+    "title": "fff",
+    "numbering": 1,
+    "tag": "frontend",
+    "personHour": 5.0,
+    "dueDate": "2023-11-25T15:30:00",
+    "memberId": 6
+}
+```
+</details>
+<details>
+<summary>Ticket 순서 수정 </summary>
+
+#### Request
+```javascript
+  PATCH /api/teams/{teamId}/progresses/{progressId}/tickets/{ticketId}
+```
+
+| Path | Type   | Description             |
+|:-----|:-------|:------------------------|
+| `id` | `Long` | **Required**. Team's ID |
+
+| Path | Type   | Description                |
+|:-----|:-------|:---------------------------|
+| `id` | `Long` | **Required**. Progress' ID |
+
+| Path | Type   | Description               |
+|:-----|:-------|:--------------------------|
+| `id` | `Long` | **Required**. Ticket's ID |
+
+```http
+Content-Type: application/json
+
+{
+    "progressNum": 2,
+    "ticketNum": 2
+}
+```
+
+#### Response
+```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+    "createdAt": "2023-11-24T16:33:48.575983",
+    "updatedAt": "2023-11-24T16:33:48.575983",
+    "id": 2,
+    "title": "ticket_b",
+    "numbering": 2,
+    "tag": "b",
+    "personHour": 1.0,
+    "dueDate": "2023-11-30T10:30:00",
+    "memberId": 1
 }
 ```
 </details>

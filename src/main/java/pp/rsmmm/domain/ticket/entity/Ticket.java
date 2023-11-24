@@ -1,5 +1,6 @@
 package pp.rsmmm.domain.ticket.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,9 +37,12 @@ public class Ticket extends BaseEntity {
 
     private Long memberId;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "progress_id")
     private Progress progress;
+
+//    private Integer progressNum = progress.getNumbering();
 
     @Builder
     public Ticket(String title, Integer numbering, String tag, Double personHour, LocalDateTime dueDate, Progress progress, Long memberId) {
@@ -51,4 +55,24 @@ public class Ticket extends BaseEntity {
         this.memberId = memberId;
     }
 
+    public void modifyTicket(String title, String tag, Double personHour, LocalDateTime dueDate, Long memberId) {
+        this.title = title;
+        this.tag = tag;
+        this.personHour = personHour;
+        this.dueDate = dueDate;
+        this.memberId = memberId;
+    }
+
+//    public void modifyTicketOrder(Integer numbering, Integer progressNum) {
+//        this.numbering = numbering;
+//        this.progressNum = progressNum;
+//    }
+
+    public void ticketOrderUpdate(Integer numbering) {
+        this.numbering = numbering;
+    }
+
+    public void changeProgressOfTarget(Progress progress) {
+        this.progress = progress;
+    }
 }

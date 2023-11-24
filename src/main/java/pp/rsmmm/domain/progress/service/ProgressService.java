@@ -20,6 +20,7 @@ import pp.rsmmm.domain.teamsetting.entity.TeamSetting;
 import pp.rsmmm.domain.teamsetting.repository.TeamSettingRepository;
 import pp.rsmmm.global.config.jwt.TokenProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -66,6 +67,7 @@ public class ProgressService {
                 .name(progressCreateRequestDto.getName())
                 .numbering(numOfProgress)
                 .team(team)
+                .ticketList(new ArrayList<>())
                 .build();
 
         progressRepository.save(progress);
