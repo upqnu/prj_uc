@@ -17,7 +17,6 @@ import pp.rsmmm.domain.teamsetting.repository.TeamSettingRepository;
 import pp.rsmmm.domain.teamsetting.service.TeamSettingService;
 import pp.rsmmm.global.config.jwt.TokenProvider;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -81,8 +80,6 @@ public class TeamService {
         TeamSetting existsTeam = teamSettingRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
 
-        System.out.println("흐어! " + String.valueOf(existsTeam));
-
         // 해당 team의 팀장 또는 팀원만 팀구성(teamSetting) 확인이 가능
         String memberName = tokenProvider.getMemberNameFromToken();
         Member teamMember = memberRepository.findByName(memberName)
@@ -95,8 +92,8 @@ public class TeamService {
             System.out.println("팀 구성 정보를 찾을 수 없습니다.");
         }
 
-        System.out.println("으아! " + Arrays.toString(new List[]{teamSettingsOfMember}));
 
+        // 팀장 및 (팀장의 초대를 수락한) 팀원에게만 팀 조회 권한 부여
         for (TeamSetting teamSetting : teamSettingsOfMember) {
             if (!teamSetting.equals(existsTeam)) {
                 continue;

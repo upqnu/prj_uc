@@ -46,27 +46,14 @@ public class TicketService {
     @Transactional
     public TicketResponseDto createTicket(Long teamId, Long progressId, TicketCreateRequestDto ticketCreateRequestDto) {
         // 해당 팀, 진행상황이 존재하는지 확인
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+        existsTeam(teamId);
+        existsProgress(progressId);
 
         Progress progress = progressRepository.findById(progressId)
                 .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
 
-        // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원인지 확인
-        String memberName = tokenProvider.getMemberNameFromToken();
-        Member member = memberRepository.findByName(memberName)
-                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
-
-        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
-        for (TeamSetting teamSetting : teamSettings) {
-            if (teamSetting.getMember() != member) {
-                continue;
-            }
-
-            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
-                throw new IllegalArgumentException("진행상황의 순서를 변경할 수 있는 권한이 없습니다.");
-            }
-        }
+        // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원이라면 member 반환
+        Member member = getTeamLeaderOrMate(teamId);
 
         // Ticket 생성
         int numOfTickets = ticketRepository.countByProgress(progress) + 1;
@@ -100,30 +87,12 @@ public class TicketService {
     @Transactional
     public void deleteTicket(Long teamId, Long progressId, Long ticketId) {
         // 해당 팀, 진행상황, 티켓이 존재하는지 확인
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
-
-        Progress progress = progressRepository.findById(progressId)
-                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
-
-        Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new EntityNotFoundException("티켓을 찾을 수 없습니다."));
+        existsTeam(teamId);
+        existsProgress(progressId);
+        existsTicket(ticketId);
 
         // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원인지 확인
-        String memberName = tokenProvider.getMemberNameFromToken();
-        Member member = memberRepository.findByName(memberName)
-                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
-
-        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
-        for (TeamSetting teamSetting : teamSettings) {
-            if (teamSetting.getMember() != member) {
-                continue;
-            }
-
-            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
-                throw new IllegalArgumentException("진행상황을 확인할 수 있는 권한이 없습니다.");
-            }
-        }
+        isTeamLeaderOrMate(teamId);
 
         // 티켓 삭제
         ticketRepository.deleteById(ticketId);
@@ -140,30 +109,15 @@ public class TicketService {
     @Transactional
     public Ticket modifyTicket(TicketModifyDto ticketModifyDto, Long teamId, Long progressId, Long ticketId) {
         // 해당 팀, 진행상황, 티켓이 존재하는지 확인
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
-
-        Progress progress = progressRepository.findById(progressId)
-                .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
+        existsTeam(teamId);
+        existsProgress(progressId);
+        existsTicket(ticketId);
 
         Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new EntityNotFoundException("티켓을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("티켓에 존재하지 않거나 찾을 수 없습니다."));
 
         // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원인지 확인
-        String memberName = tokenProvider.getMemberNameFromToken();
-        Member member = memberRepository.findByName(memberName)
-                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
-
-        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
-        for (TeamSetting teamSetting : teamSettings) {
-            if (teamSetting.getMember() != member) {
-                continue;
-            }
-
-            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
-                throw new IllegalArgumentException("진행상황을 확인할 수 있는 권한이 없습니다.");
-            }
-        }
+        isTeamLeaderOrMate(teamId);
 
         // 티켓 수정
         ticket.modifyTicket(
@@ -188,33 +142,21 @@ public class TicketService {
     @Transactional
     public Ticket modifyTicketOrder(TicketOrderModifyDto ticketOrderModifyDto, Long teamId, Long progressId, Long ticketId) {
         // 해당 팀, 진행상황, 티켓이 존재하는지 확인
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+        existsTeam(teamId);
+        existsProgress(progressId);
+        existsTicket(ticketId);
 
         Progress progress = progressRepository.findById(progressId)
                 .orElseThrow(() -> new EntityNotFoundException("진행상황을 찾을 수 없습니다."));
 
         Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new EntityNotFoundException("티켓을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("티켓에 존재하지 않거나 찾을 수 없습니다."));
 
         // 현재 로그인한 사용자가 progress가 속한 팀의 팀장 또는 팀원인지 확인
-        String memberName = tokenProvider.getMemberNameFromToken();
-        Member member = memberRepository.findByName(memberName)
-                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
-
-        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
-        for (TeamSetting teamSetting : teamSettings) {
-            if (teamSetting.getMember() != member) {
-                continue;
-            }
-
-            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
-                throw new IllegalArgumentException("진행상황을 확인할 수 있는 권한이 없습니다.");
-            }
-        }
+        isTeamLeaderOrMate(teamId);
 
         // 진행상황 순서 변경
-        if (ticketOrderModifyDto.getProgressNum() == progress.getNumbering()) {
+        if (ticketOrderModifyDto.getProgressNum().equals(progress.getNumbering())) {
             modifyTicketOrderInProgress(ticket, progress, ticketOrderModifyDto);
         } else {
             modifyTicketOrderBetweenProgresses(ticket, progress, ticketOrderModifyDto);
@@ -311,5 +253,74 @@ public class TicketService {
                 ticketRepository.deleteById(initT.getId());
             }
         }
+    }
+
+    /**
+     * 팀 존재 여부 확인
+     * @param teamId
+     */
+    private void existsTeam(Long teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀이 존재하지 않거나 찾을 수 없습니다."));
+    }
+
+    /**
+     * 진행상황(progress) 존재 여부 확인
+     * @param progressId
+     */
+    private void existsProgress(Long progressId) {
+        Progress progress = progressRepository.findById(progressId)
+                .orElseThrow(() -> new EntityNotFoundException("진행상황이 존재하지 않거나 찾을 수 없습니다."));
+    }
+
+    /**
+     * 티켓 존재 여부 확인
+     * @param ticketId
+     */
+    private void existsTicket(Long ticketId) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new EntityNotFoundException("티켓이 존재하지 않거나 찾을 수 없습니다."));
+    }
+
+    private void isTeamLeaderOrMate(Long teamId) {
+        String memberName = tokenProvider.getMemberNameFromToken();
+        Member member = memberRepository.findByName(memberName)
+                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+
+        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
+        for (TeamSetting teamSetting : teamSettings) {
+            if (teamSetting.getMember() != member) {
+                continue;
+            }
+
+            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
+                throw new IllegalArgumentException("티켓을 확인할 수 있는 권한이 없습니다.");
+            }
+        }
+    }
+
+    private Member getTeamLeaderOrMate(Long teamId) {
+        String memberName = tokenProvider.getMemberNameFromToken();
+        Member member = memberRepository.findByName(memberName)
+                .orElseThrow(() -> new EntityNotFoundException("팀장 또는 팀원을 찾을 수 없습니다."));
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+
+        List<TeamSetting> teamSettings = teamSettingRepository.findByTeam(team);
+        for (TeamSetting teamSetting : teamSettings) {
+            if (teamSetting.getMember() != member) {
+                continue;
+            }
+
+            if (teamSetting.getInviteStatus() == InviteStatus.RECEIVED || teamSetting.getInviteStatus() == InviteStatus.REFUSED) {
+                throw new IllegalArgumentException("티켓을 확인할 수 있는 권한이 없습니다.");
+            }
+        }
+
+        return member;
     }
 }

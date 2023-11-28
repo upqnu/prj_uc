@@ -249,7 +249,7 @@ public class DummyDataService {
 
         Progress progress2 = Progress.builder()
                 .name("Progress_2")
-                .numbering(1)
+                .numbering(2)
                 .team(team1)
                 .ticketList(new ArrayList<>())
                 .build();
@@ -290,7 +290,7 @@ public class DummyDataService {
 
         Ticket ticket_D = Ticket.builder()
                 .title("D")
-                .numbering(4)
+                .numbering(1)
                 .tag("PM")
                 .personHour(1.5)
                 .dueDate(LocalDateTime.of(2023,11,28,15,30, 0))
@@ -300,7 +300,7 @@ public class DummyDataService {
 
         Ticket ticket_E = Ticket.builder()
                 .title("E")
-                .numbering(5)
+                .numbering(2)
                 .tag("CTO")
                 .personHour(1.0)
                 .dueDate(LocalDateTime.of(2023,11,29,11,30, 0))
