@@ -66,9 +66,11 @@ public class MemberService {
     @Transactional
     public TokenResponseDto signIn(SignInRequestDto signInRequestDto) {
 
+        // 사용자 찾기
         Member member = memberRepository.findByName(signInRequestDto.getMemberName())
                 .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
+        // 패스워드 일치 여부 확인
         if (!passwordEncoder.matches(signInRequestDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
@@ -93,7 +95,7 @@ public class MemberService {
             throw new IllegalArgumentException("유효하지 않은 리프레시 토큰입니다.");
         }
 
-        // 3. 리프레스 토큰 생성 및 저장
+        // 3. 리프레시 토큰 생성 및 저장
         RefreshToken newRefreshToken = new RefreshToken(refreshToken, memberName);
         refreshTokenRepository.save(newRefreshToken);
 
