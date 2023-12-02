@@ -18,7 +18,7 @@ public class TeamController {
     private final TeamSettingService teamSettingService;
 
     /**
-     * 팀 & 팀구성생성
+     * 팀 & 팀구성 생성
      * @param teamCreateRequestDto
      * @return
      */
