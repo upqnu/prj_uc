@@ -10,6 +10,7 @@
 4. [ERD 설계](#4erd-설계)
 5. [핵심기능](#5핵심기능)
 6. [트러블 슈팅 & TIL](#6트러블-슈팅--til)
+7. [회고](#7회고)
   
 - [Git commit 메시지 컨벤션](#Git-commit-메시지-컨벤션)
 - [API Reference](#api-reference)
@@ -103,12 +104,75 @@
 </details>
   
 ## 6.트러블 슈팅 & TIL
+> 
+> 1. member, team 의 다대다 관계 (1) teamSetting 연결테이블로 풀어보기 (<a href="https://github.com/upqnu/prj_uc/wiki/member,%20team%20%EC%9D%98%20%EB%8B%A4%EB%8C%80%EB%8B%A4%20%EA%B4%80%EA%B3%84%20(1)%20teamSetting%20%EC%97%B0%EA%B2%B0%ED%85%8C%EC%9D%B4%EB%B8%94%EB%A1%9C%20%ED%92%80%EC%96%B4%EB%B3%B4%EA%B8%B0">클릭 & detail 확인</a>)
+> 
+> 2. member, team 의 다대다 관계 (2) teamSetting으로 초대 관련 기능을 쉽게 구현 (<a href="https://github.com/upqnu/prj_uc/wiki/member,%20team%20%EC%9D%98%20%EB%8B%A4%EB%8C%80%EB%8B%A4%20%EA%B4%80%EA%B3%84%20(2)%20teamSetting%EC%9C%BC%EB%A1%9C%20%EC%B4%88%EB%8C%80%20%EA%B4%80%EB%A0%A8%20%EA%B8%B0%EB%8A%A5%EC%9D%84%20%EC%89%BD%EA%B2%8C%20%EA%B5%AC%ED%98%84">클릭 & detail 확인</a>)
+> 
+> 3. 순환 참조 오류 ; 확실히 짚고 넘어가자 (<a href="https://github.com/upqnu/prj_uc/wiki/%EC%88%9C%ED%99%98%20%EC%B0%B8%EC%A1%B0%20%EC%98%A4%EB%A5%98%20;%20%ED%99%95%EC%8B%A4%ED%9E%88%20%EC%A7%9A%EA%B3%A0%20%EB%84%98%EC%96%B4%EA%B0%80%EC%9E%90%20(@JsonManagedReference,%20@JsonBackReference)">클릭 & detail 확인</a>)
+>
+  
+## 7.회고
+  <br>
+<details>
+<summary>백엔드 개발자에게 아무리 경험해도 쉽다고 느껴지지 않는 것이 바로 ERD라는 말을 들었는데 이 프로젝트에서 이를 제대로 체감할 수 있었다. 동시에 양방향 연관관계 및 연관관계의 주인 개념을 더 잘 이해할 수 있게 되었다.</summary>
 
-1. member, team 의 다대다 관계 (1) teamSetting 연결테이블로 풀어보기 (<a href="https://github.com/upqnu/prj_uc/wiki/member,%20team%20%EC%9D%98%20%EB%8B%A4%EB%8C%80%EB%8B%A4%20%EA%B4%80%EA%B3%84%20(1)%20teamSetting%20%EC%97%B0%EA%B2%B0%ED%85%8C%EC%9D%B4%EB%B8%94%EB%A1%9C%20%ED%92%80%EC%96%B4%EB%B3%B4%EA%B8%B0">클릭 & detail 확인</a>)
+- 프로젝트에서는 다수의 멤버가 다수의 팀에서 팀원이 될 수 있다. Member와 Team은 N : M 이므로 중간에 연결테이블을 만들어야 했는데 어떤 성격을 가진 연결테이블인지 정의하기가 어려웠다.
+- TeamSetting이라는 중간테이블을 만들었다. Member, Team과 각각 양방향 참조하는 관계인데 여기에서 연관관계의 주인을 착각하여 mappedBy라는 속성을 잘못 설정하게 되었다. 곧 이를 감지하고 코드를 수정했지만, 양방향 연관관계에 대해서 학습이 필요하다는 생각이 들었다.
+- 구글링을 통해 다음과 같이 명확히 이해할 수 있었다.
+    - 연관관계의 주인은 테이블에 외래 키가 있는 곳으로 N:1에서 N쪽이라고 보면 된다.
+    - 주인이 아니라면 `mappedBy 속성`을 사용해서 속성의 값으로 연관관계의 주인을 지정한다.
+    - mappedBy의 뜻을 “나는 내 연관관계의 주인의 [~~~] 필드에 해당해!”로 해석한다면 이해가 어렵지 않다.
+    - mappedBy 속성에 들어올 이름은, **연관관계 주인의 해당 속성의 필드명과 일치**해야 한다!
   
-2. member, team 의 다대다 관계 (2) teamSetting으로 초대 관련 기능을 쉽게 구현 (<a href="https://github.com/upqnu/prj_uc/wiki/member,%20team%20%EC%9D%98%20%EB%8B%A4%EB%8C%80%EB%8B%A4%20%EA%B4%80%EA%B3%84%20(2)%20teamSetting%EC%9C%BC%EB%A1%9C%20%EC%B4%88%EB%8C%80%20%EA%B4%80%EB%A0%A8%20%EA%B8%B0%EB%8A%A5%EC%9D%84%20%EC%89%BD%EA%B2%8C%20%EA%B5%AC%ED%98%84">클릭 & detail 확인</a>)
+- (위 트러블 슈팅 1번 참고)
+</details>
+  <br>
+<details>
+<summary>N:M관계를 코드로 풀기 위해 생성한 연결테이블을 통해 필요 없는 DB테이블 생성을 방지할 수 있다는 값진 경험을 할 수 있었다.</summary>
+
+- N:M 관계를 코드로 구현하기 위해 생성한 연결테이블인 TeamSetting이 연결 용도 외에 다른 역할을 하게 만들고 싶었다. 동시에 팀을 생성한 사용자가 다른 사용자를 팀원으로 초대하고, 초대받은 사용자는 이를 수락 또는 거절하는 기능을 구현하는 방향을 잡지 못하고 있었다.
+- “TeamSetting”을 초대와 연관지어 사용해야겠다는 생각은 쉽게 떠올랐으나 코드 작성방향이 떠오르지 않아 1일 정도를 온전히 구글링 및 활용방안 구상에 사용했다.
+- 초대는 발송 및 수신확인할 때만 사용되는 성질이 있기에, 초대(invitation) 테이블을 생성하는 것은 DB를 낭비하는 것으로 느꼈다. 대신 초대와 관련된 행위가 사용자의 어떤 ‘상태(status)’와 연관된다면 초대 테이블을 생성하지 않고도 구현이 가능하다는 판단을 하게 되었다.
+- 몇 시간을 더 투자한 끝에 TeamSetting의 필드에 enum 타입의 InviteStatus를 4가지로 구분하는 것으로 코드를 작성할 수 있었다.
+    - INVITING ; 팀을 생성한 사용자만 초대를 할 수 있다
+    - RECEIVED ; 초대를 수신만 한 상태는 아직 팀원이 아니다
+    - ACCEPTED ; 초대를 수락하면 팀원이 된다
+    - REFUSED ; 초대를 거절하면 팀원이 아니다
+- 특정 사용자가 특정 팀에서 어떤 역할을 하는지는 반드시 저장되어야 하는 정보이다. TeamSetting 클래스는 이를 저장하면서 초대와 관련된 상태를 지정하는 역할을 한다.
+    ```json
+    {
+    	teamSettingId : 2,
+    	teamId : 3,
+    	memberId : 7,
+    	InviteStatus : RECEIVED
+    }
+    
+    /* 
+    위 코드의 해석) “memberId 7번 사용자는 teamId 3번 팀에 대해서 ; 
+    팀원으로 초대를 받았으나 아직 승낙이나 거절을 하지 않았다. 따라서 현재 아직 팀원이 아니다.”
+    */
+    ```
   
+- 위와 같은 정보는 Member 테이블에도 저장할 수 있지만, Member 테이블에는 사용자의 기본적인 정보만 저장하고 - 자신과 관련된 팀들에 대한 정보는 TeamSetting 테이블에 저장하는 것이 더 효율적이라는 판단을 하게 되었다.
+    - 이 프로젝트에서 Team은 하나의 프로젝트와 동일한 개념이며 / 프로젝트 운영을 위해 각 작업(Ticket)이 어떤 진행상황(Progress, 칸반보드에서 상태column 역할)에 속해있는지 설정하는 기능의 권한을 TeamSetting 을 통해 구현하려고 하였다.
+    - 예를 들어, teamId 1번 팀의 작업 내용의 추가와 변경은 TeamSetting 테이블에서 [ teamId = 1 ]과 [ InviteStatus = INVITING 또는 ACCEPTED ]를 동시에 만족하는 경우에만 가능하게 할 수 있다.
+- 위와 같이 구현하게 되면 단지 초대장의 내용, 초대에 대한 승락 또는 거절 여부만 저장하게 될 가능성이 높은 초대 테이블을 생성하지 않을 수 있다고 최종 결론짓게 되었다.
   
+- (위 트러블 슈팅 2번 참고)
+</details>
+  <br>
+<details>
+<summary>순환 참조 에러가 발생하여 이를 해결하는 과정에서 에러의 원인을 정확하게 파악하고 문제를 해결하였다.</summary>
+
+- 순환 참조 에러는 N:M 양방향 연관관계를 맺고 있는 Member, Team 엔티티와 이들 사이의 연결테이블인 TeamSetting 엔티티의 관계에서 발생할 수 있다.
+- 각각의 객체를 조회할 때 연관된 두 엔티티 간의 무한 ‘직렬화’가 발행하여 무한 참조로 인한 Stack overflow가 발생하는 것이다.
+- 따라서 부모인 Member, Team 내의 teamSettingList 필드에 @JsonManagedReference를 선언. 그러면 이 애너테이션이 지정된 Member, Team 엔티티는 JSON으로 직렬화될 때 참조된 TeamSetting엔티티까지 포함하여 직렬화.
+- 또한 자식은 TeamSetting 내의 Member member, Team team 필드에 @JsonBackReference를 선언. 이 애너테이션이 지정된 TeamSetting 엔티티는 JSON으로 직렬화되지 않는다.
+  
+- (위 트러블 슈팅 3번 참고)
+</details>
+    
 ---
   
 ## Git commit 메시지 컨벤션
