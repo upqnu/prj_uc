@@ -9,8 +9,7 @@
 3. [사용기술](#3사용기술)  
 4. [ERD 설계](#4erd-설계)
 5. [핵심기능](#5핵심기능)
-6. [중요 트러블 슈팅](#6중요-트러블-슈팅)
-7. [기타 트러블 슈팅](#7기타-트러블-슈팅)
+6. [트러블 슈팅 & TIL](#6트러블-슈팅--til)
   
 - [Git commit 메시지 컨벤션](#Git-commit-메시지-컨벤션)
 - [API Reference](#api-reference)
@@ -103,15 +102,11 @@
     - 개선 결과 : 총 9개의 비즈니스 로직 담당 메서드 별 최소 5라인, 최대 13라인의 코드 감소 및 가독성 개선  
 </details>
   
-## 6.중요 트러블 슈팅
+## 6.트러블 슈팅 & TIL
 
 1. member, team 의 다대다 관계 (1) teamSetting 연결테이블로 풀어보기 (<a href="https://github.com/upqnu/prj_uc/wiki/member,%20team%20%EC%9D%98%20%EB%8B%A4%EB%8C%80%EB%8B%A4%20%EA%B4%80%EA%B3%84%20(1)%20teamSetting%20%EC%97%B0%EA%B2%B0%ED%85%8C%EC%9D%B4%EB%B8%94%EB%A1%9C%20%ED%92%80%EC%96%B4%EB%B3%B4%EA%B8%B0">클릭 & detail 확인</a>)
   
 2. member, team 의 다대다 관계 (2) teamSetting으로 초대 관련 기능을 쉽게 구현 (<a href="https://github.com/upqnu/prj_uc/wiki/member,%20team%20%EC%9D%98%20%EB%8B%A4%EB%8C%80%EB%8B%A4%20%EA%B4%80%EA%B3%84%20(2)%20teamSetting%EC%9C%BC%EB%A1%9C%20%EC%B4%88%EB%8C%80%20%EA%B4%80%EB%A0%A8%20%EA%B8%B0%EB%8A%A5%EC%9D%84%20%EC%89%BD%EA%B2%8C%20%EA%B5%AC%ED%98%84">클릭 & detail 확인</a>)
-  
-## 7.기타 트러블 슈팅
-  
-  
   
   
 ---
