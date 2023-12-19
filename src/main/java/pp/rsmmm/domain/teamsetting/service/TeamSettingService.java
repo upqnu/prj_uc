@@ -82,6 +82,12 @@ public class TeamSettingService {
         teamSettingRepository.save(addedTeamSetting);
     }
 
+    /**
+     * 팀원으로의 초대에 승낙 또는 거절
+     * @param teamId
+     * @param inviteeId
+     * @param accept
+     */
     @Transactional
     public void respondToInvitation(Long teamId, Long inviteeId, boolean accept) {
         // 팀 및 팀구성이 존재하는지 확인

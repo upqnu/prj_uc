@@ -1,6 +1,9 @@
 package pp.rsmmm.domain.team.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pp.rsmmm.domain.team.dto.TeamCreateRequestDto;
@@ -36,7 +39,9 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity<TeamSetting> getTeam(@PathVariable Long teamId) {
         TeamSetting teamSetting = teamService.getTeam(teamId);
-        return ResponseEntity.ok(teamSetting);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity(teamSetting, headers, HttpStatus.OK);
     }
 
     /**
