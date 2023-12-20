@@ -148,7 +148,11 @@ class TeamControllerTest extends IntegrationTest {
         ArrayList<Long> ids = createTeam(teamLeader);
         Long teamId = ids.get(0);
         Long teamSettingId = ids.get(1);
-        TeamSetting teamSetting = sendInvitation(teamId, teamSettingId, teamMate.getName());
+        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
+                        .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
+        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
+        TeamSetting teamSetting2 = sendInvitation(teamId, teamSettingId, teamMate.getName());
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
         getAccessToken(teamMate);
         boolean accept = true;
 
@@ -160,6 +164,8 @@ class TeamControllerTest extends IntegrationTest {
                 // then
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
     }
 
     @DisplayName("팀원 초대에 거절 - 성공")
@@ -171,7 +177,11 @@ class TeamControllerTest extends IntegrationTest {
         ArrayList<Long> ids = createTeam(teamLeader);
         Long teamId = ids.get(0);
         Long teamSettingId = ids.get(1);
-        TeamSetting teamSetting = sendInvitation(teamId, teamSettingId, notTeamMember.getName());
+        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
+        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
+        TeamSetting teamSetting2 = sendInvitation(teamId, teamSettingId, notTeamMember.getName());
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
         getAccessToken(notTeamMember);
         boolean accept = false;
 
@@ -183,6 +193,8 @@ class TeamControllerTest extends IntegrationTest {
                 // then
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
     }
 
     @DisplayName("팀장이 팀 조회 - 성공")
@@ -215,10 +227,15 @@ class TeamControllerTest extends IntegrationTest {
         ArrayList<Long> ids = createTeam(teamLeader);
         Long teamId = ids.get(0);
         Long teamSettingId = ids.get(1);
+        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
+        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
+        TeamSetting teamSetting2 = sendInvitation(teamId, teamSettingId, teamMate.getName());
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
         getAccessToken(teamMate);
         boolean accept = true;
-        TeamSetting teamSetting = respondToInvitation(teamId, teamMate.getId(), accept, teamSettingId);
-        log.info("[ id {} 사용자는 {}번 팀에서 {} 상태 ]", teamMate.getId(), teamId, String.valueOf(teamSetting.getInviteStatus()));
+        TeamSetting teamSetting3 = respondToInvitation(teamId, teamMate.getId(), accept, teamSetting2.getId());
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting3.getId(), teamSetting3.getInviteStatus());
 
         // when
         mvc.perform(get("/api/teams/" + teamId)
@@ -241,10 +258,15 @@ class TeamControllerTest extends IntegrationTest {
 //        ArrayList<Long> ids = createTeam(teamLeader);
 //        Long teamId = ids.get(0);
 //        Long teamSettingId = ids.get(1);
+//        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
+//                .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
+//        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
+//        TeamSetting teamSetting2 = sendInvitation(teamId, teamSettingId, notTeamMember.getName());
+//        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
 //        getAccessToken(notTeamMember);
 //        boolean accept = false;
-//        TeamSetting teamSetting = respondToInvitation(teamId, notTeamMember.getId(), accept, teamSettingId);
-//        log.info("[ id {} 사용자는 {}번 팀에서 {} 상태 ]", notTeamMember.getId(), teamId, String.valueOf(teamSetting.getInviteStatus()));
+//        TeamSetting teamSetting3 = respondToInvitation(teamId, notTeamMember.getId(), accept, teamSetting2.getId());
+//        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting3.getId(), teamSetting3.getInviteStatus());
 //
 //        // when & then
 //        assertThrows(EntityNotFoundException.class, () -> teamService.getTeam(teamId));
