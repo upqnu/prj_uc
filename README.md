@@ -111,6 +111,7 @@
 > 
 > 3. 순환 참조 오류 ; 확실히 짚고 넘어가자 (<a href="https://github.com/upqnu/prj_uc/wiki/%EC%88%9C%ED%99%98%20%EC%B0%B8%EC%A1%B0%20%EC%98%A4%EB%A5%98%20;%20%ED%99%95%EC%8B%A4%ED%9E%88%20%EC%A7%9A%EA%B3%A0%20%EB%84%98%EC%96%B4%EA%B0%80%EC%9E%90%20(@JsonManagedReference,%20@JsonBackReference)">클릭 & detail 확인</a>)
 >
+> 4. 유닛테스트 간 순서 정하기…는 실패했지만, 유닛테스트는 대부분 성공! (<a href="https://github.com/upqnu/prj_uc/wiki/%EC%9C%A0%EB%8B%9B%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EA%B0%84%20%EC%88%9C%EC%84%9C%20%EC%A0%95%ED%95%98%EA%B8%B0%E2%80%A6%EB%8A%94%20%EC%8B%A4%ED%8C%A8%ED%96%88%EC%A7%80%EB%A7%8C,%20%EC%9C%A0%EB%8B%9B%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%8A%94%20%EB%8C%80%EB%B6%80%EB%B6%84%20%EC%84%B1%EA%B3%B5!">클릭 & detail 확인</a>)
   
 ## 7.회고
   <br>
@@ -172,7 +173,18 @@
   
 - (위 트러블 슈팅 3번 참고)
 </details>
-    
+<br>
+<details>
+<summary>유닛테스트를 하려면 제대로, 충실하게 해야 한다는 것을 뼈저리게 깨달았다.</summary>
+
+- "JUnit 테스트는 각각 독립적으로 실행됨. 각 테스트 메서드는 다른 테스트 메서드와 공유되는 상태를 가지지 않으며, 각 테스트 메서드 실행 전후로 테스트 환경은 초기화됨!"
+- 위와 같은 JUnit 테스트의 기본을 망각하고, 테스트 메서드에서 생성되는 객체를 다른 테스트 메서드에 사용하기 위해서 `@Order` , `@BeforeEach`를 사용하려고 시도했음. 당연히 실패!
+- 이에 테스트를 실행하기 위한 조건(given)을 테스트 클래스 내 별도의 메서드를 사용하여 작성하였음.
+- 결론적으로 TeamController의 테스트 메서드의 대부분을 작성하여 그 결과는 성공이었음. 기본을 망각하다가 1주일 이상의 시간을 허비함. 시간을 아끼자!
+  
+- (위 트러블 슈팅 4번 참고)
+</details>
+  
 ---
   
 ## Git commit 메시지 컨벤션

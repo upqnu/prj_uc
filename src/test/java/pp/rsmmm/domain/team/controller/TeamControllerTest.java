@@ -406,12 +406,6 @@ class TeamControllerTest extends IntegrationTest {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀이 존재하지 않거나 찾을 수 없습니다."));
 
-//        List<TeamSetting> teamSettings = null;
-//        try {
-//            teamSettings = teamSettingRepository.findByTeam(team);
-//        } catch (EntityNotFoundException e) {
-//            log.info("팀을 찾을 수 없습니다.");
-//        }
 
         TeamSetting teamSetting = teamSettingRepository.findById(teamSettingId)
                 .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않거나 찾을 수 없습니다."));
@@ -423,20 +417,6 @@ class TeamControllerTest extends IntegrationTest {
         if (member.getId() != inviteeId) {
             throw new EntityNotFoundException(team.getName() +"팀의 초대에 수락 또는 거절할 권한이 없습니다.");
         }
-
-        // 초대받은 사용자의 InviteStatus가 RECEIVED인 경우에만 초대를 수락 또는 거절
-//        TeamSetting theTeamSetting = null;
-//        for (TeamSetting teamSetting : teamSettings) {
-//            if (teamSetting.getMember() != member) {
-//                continue;
-//            }
-//
-//            if (teamSetting.getInviteStatus() != InviteStatus.RECEIVED) {
-//                throw new EntityNotFoundException(team.getName() +"팀의 초대에 수락 또는 거절할 권한이 없습니다.");
-//            }
-//
-//            theTeamSetting = teamSetting;
-//        }
 
         if (accept) {
             teamSetting.setInviteStatus(InviteStatus.ACCEPTED);
