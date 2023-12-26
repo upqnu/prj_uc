@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="pp.rsmmm.domain.progress.controller.ProgressControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-12-26T12:03:05" hostname="upgrqnuui-MacBookAir.local" time="0.631">
+<testsuite name="pp.rsmmm.domain.progress.controller.ProgressControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-12-26T14:29:44" hostname="upgrqnuui-MacBookAir.local" time="0.488">
   <properties/>
-  <testcase name="팀장이 진행상황 이름 변경 - 성공" classname="pp.rsmmm.domain.progress.controller.ProgressControllerTest" time="0.631"/>
+  <testcase name="팀원이 진행상황 순서 변경 - 성공" classname="pp.rsmmm.domain.progress.controller.ProgressControllerTest" time="0.488"/>
   <system-out><![CDATA[
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -11,20 +11,20 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.1.1)
 
-2023-12-26T21:03:01.043+09:00  INFO 9154 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : Starting ProgressControllerTest using Java 17.0.9 with PID 9154 (started by upgrqnu in /Users/upgrqnu/Projects/kanban)
-2023-12-26T21:03:01.045+09:00  INFO 9154 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : No active profile set, falling back to 1 default profile: "default"
-2023-12-26T21:03:01.563+09:00  INFO 9154 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-12-26T21:03:01.602+09:00  INFO 9154 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 6 JPA repository interfaces.
-2023-12-26T21:03:01.924+09:00  INFO 9154 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-12-26T21:03:01.950+09:00  INFO 9154 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
-2023-12-26T21:03:01.951+09:00  INFO 9154 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2023-12-26T21:03:02.009+09:00  INFO 9154 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2023-12-26T21:03:02.084+09:00  INFO 9154 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-12-26T21:03:02.093+09:00  INFO 9154 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-12-26T21:03:02.207+09:00  INFO 9154 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:kanban user=SA
-2023-12-26T21:03:02.208+09:00  INFO 9154 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-12-26T21:03:02.353+09:00  INFO 9154 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2023-12-26T21:03:02.756+09:00  INFO 9154 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-26T23:29:40.627+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : Starting ProgressControllerTest using Java 17.0.9 with PID 12604 (started by upgrqnu in /Users/upgrqnu/Projects/kanban)
+2023-12-26T23:29:40.629+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : No active profile set, falling back to 1 default profile: "default"
+2023-12-26T23:29:40.986+09:00  INFO 12604 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-12-26T23:29:41.024+09:00  INFO 12604 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 6 JPA repository interfaces.
+2023-12-26T23:29:41.268+09:00  INFO 12604 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-26T23:29:41.293+09:00  INFO 12604 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-12-26T23:29:41.294+09:00  INFO 12604 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-26T23:29:41.353+09:00  INFO 12604 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-26T23:29:41.422+09:00  INFO 12604 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-12-26T23:29:41.430+09:00  INFO 12604 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-26T23:29:41.513+09:00  INFO 12604 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:kanban user=SA
+2023-12-26T23:29:41.514+09:00  INFO 12604 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-26T23:29:41.648+09:00  INFO 12604 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-26T23:29:41.995+09:00  INFO 12604 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
 Hibernate: create table member (member_id bigint generated by default as identity, created_at timestamp(6), updated_at timestamp(6), authority varchar(255) check (authority in ('ROLE_MEMBER','ROLE_ADMIN')), email varchar(100) not null, name varchar(255) not null, password varchar(255) not null, primary key (member_id))
 Hibernate: create table progress (progress_id bigint generated by default as identity, created_at timestamp(6), updated_at timestamp(6), name varchar(255) not null, numbering integer not null, team_id bigint, primary key (progress_id))
 Hibernate: create table refresh_token (id bigint generated by default as identity, member_name varchar(255), refresh_token varchar(255) not null, primary key (id))
@@ -41,22 +41,22 @@ Hibernate: alter table if exists progress add constraint FK9rdflrh05eu15ao9mldbr
 Hibernate: alter table if exists team_setting add constraint FKt32yypbcl2vkfghbckat66bfb foreign key (member_id) references member
 Hibernate: alter table if exists team_setting add constraint FKma72ct0tv3cuvuw7tpe3qs2br foreign key (team_id) references team
 Hibernate: alter table if exists ticket add constraint FK2vn168ig3a4crk8lfejvqueoi foreign key (progress_id) references progress
-2023-12-26T21:03:02.798+09:00  INFO 9154 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-12-26T21:03:03.127+09:00  WARN 9154 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-12-26T21:03:03.145+09:00  WARN 9154 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2023-12-26T23:29:42.033+09:00  INFO 12604 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-12-26T23:29:42.331+09:00  WARN 12604 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-12-26T23:29:42.348+09:00  WARN 12604 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 4bc9281c-b614-468f-a560-c891dfe7e214
+Using generated security password: 832942e5-4df1-486b-adc3-8e65f275771e
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2023-12-26T21:03:03.333+09:00  INFO 9154 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@602e7a9e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@59f5a376, org.springframework.security.web.context.SecurityContextHolderFilter@2b826482, org.springframework.security.web.header.HeaderWriterFilter@2c8f7d6a, org.springframework.web.filter.CorsFilter@19c6e821, org.springframework.security.web.authentication.logout.LogoutFilter@80081d7, pp.rsmmm.global.config.jwt.TokenAuthenticationFilter@cce672c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@153c69bc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@62d5617, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1dfd3635, org.springframework.security.web.session.SessionManagementFilter@60ae950f, org.springframework.security.web.access.ExceptionTranslationFilter@156d7556, org.springframework.security.web.access.intercept.AuthorizationFilter@5edce7da]
-2023-12-26T21:03:03.456+09:00  INFO 9154 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:kanban'
-2023-12-26T21:03:03.472+09:00  WARN 9154 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.PathRequest$H2ConsoleRequestMatcher@60b8c05c. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2023-12-26T21:03:03.473+09:00  INFO 9154 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure org.springframework.boot.autoconfigure.security.servlet.PathRequest$H2ConsoleRequestMatcher@60b8c05c
-2023-12-26T21:03:03.496+09:00  INFO 9154 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2023-12-26T21:03:03.496+09:00  INFO 9154 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2023-12-26T21:03:03.497+09:00  INFO 9154 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2023-12-26T21:03:03.516+09:00  INFO 9154 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : Started ProgressControllerTest in 2.651 seconds (process running for 3.277)
+2023-12-26T23:29:42.502+09:00  INFO 12604 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3abd7b20, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@329a27ae, org.springframework.security.web.context.SecurityContextHolderFilter@1dc9e4d2, org.springframework.security.web.header.HeaderWriterFilter@5f6b1f19, org.springframework.web.filter.CorsFilter@589a82af, org.springframework.security.web.authentication.logout.LogoutFilter@7a285418, pp.rsmmm.global.config.jwt.TokenAuthenticationFilter@1d7f0cd0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@41bc501b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2b826482, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5edce7da, org.springframework.security.web.session.SessionManagementFilter@64b0ec4a, org.springframework.security.web.access.ExceptionTranslationFilter@6a087c72, org.springframework.security.web.access.intercept.AuthorizationFilter@58ca1cad]
+2023-12-26T23:29:42.629+09:00  INFO 12604 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:kanban'
+2023-12-26T23:29:42.648+09:00  WARN 12604 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.PathRequest$H2ConsoleRequestMatcher@38624a3a. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-12-26T23:29:42.648+09:00  INFO 12604 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure org.springframework.boot.autoconfigure.security.servlet.PathRequest$H2ConsoleRequestMatcher@38624a3a
+2023-12-26T23:29:42.674+09:00  INFO 12604 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-12-26T23:29:42.674+09:00  INFO 12604 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-12-26T23:29:42.675+09:00  INFO 12604 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2023-12-26T23:29:42.693+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : Started ProgressControllerTest in 2.207 seconds (process running for 2.738)
 Hibernate: insert into member (authority,created_at,email,name,password,updated_at,member_id) values (?,?,?,?,?,?,default)
 Hibernate: insert into team (created_at,kanban,name,updated_at,team_id) values (?,?,?,?,default)
 Hibernate: insert into team_setting (created_at,invite_status,member_id,team_id,updated_at,team_setting_id) values (?,?,?,?,?,default)
@@ -104,31 +104,35 @@ Hibernate: insert into member (authority,created_at,email,name,password,updated_
 Hibernate: insert into member (authority,created_at,email,name,password,updated_at,member_id) values (?,?,?,?,?,?,default)
 Hibernate: insert into member (authority,created_at,email,name,password,updated_at,member_id) values (?,?,?,?,?,?,default)
 Hibernate: select m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.name=?
-2023-12-26T21:03:05.895+09:00  INFO 9154 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [member : dummy_member01
-2023-12-26T21:03:05.923+09:00  INFO 9154 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [Headers] ; [Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teV9tZW1iZXIwMSIsImV4cCI6MTcwMzU5Mzk4NSwiaWF0IjoxNzAzNTkyMTg1LCJhdXRob3JpdGllcyI6IlJPTEVfTUVNQkVSIiwibmFtZSI6ImR1bW15X21lbWJlcjAxIn0.d1fDEx7PRGIz1SKKclLM97AophwBvnSAobX71mS3XpM", Content-Type:"application/json"]
-2023-12-26T21:03:05.949+09:00  INFO 9154 --- [    Test worker] p.rsmmm.global.config.jwt.TokenProvider  : 토큰 : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teV9tZW1iZXIwMSIsImV4cCI6MTcwMzU5Mzk4NSwiaWF0IjoxNzAzNTkyMTg1LCJhdXRob3JpdGllcyI6IlJPTEVfTUVNQkVSIiwibmFtZSI6ImR1bW15X21lbWJlcjAxIn0.d1fDEx7PRGIz1SKKclLM97AophwBvnSAobX71mS3XpM
-Hibernate: select t1_0.team_id,t1_0.created_at,t1_0.kanban,t1_0.name,t1_0.updated_at from team t1_0 where t1_0.team_id=?
+2023-12-26T23:29:44.693+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [member : dummy_member07
+2023-12-26T23:29:44.718+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [Headers] ; [Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teV9tZW1iZXIwNyIsImV4cCI6MTcwMzYwMjc4NCwiaWF0IjoxNzAzNjAwOTg0LCJhdXRob3JpdGllcyI6IlJPTEVfTUVNQkVSIiwibmFtZSI6ImR1bW15X21lbWJlcjA3In0.-jbFmzOStj_zdibUxqk54VIJN2lOvpH4AeT_bGnqK1k", Content-Type:"application/json"]
+Hibernate: select t1_0.team_setting_id,t1_0.created_at,t1_0.invite_status,m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at,t2_0.team_id,t2_0.created_at,t2_0.kanban,t2_0.name,t2_0.updated_at,t1_0.updated_at from team_setting t1_0 left join member m1_0 on m1_0.member_id=t1_0.member_id left join team t2_0 on t2_0.team_id=t1_0.team_id where t1_0.team_setting_id=?
+2023-12-26T23:29:44.727+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [ 로그인 사용자 상태 : ACCEPTED ]
 Hibernate: select p1_0.progress_id,p1_0.created_at,p1_0.name,p1_0.numbering,t1_0.team_id,t1_0.created_at,t1_0.kanban,t1_0.name,t1_0.updated_at,p1_0.updated_at from progress p1_0 left join team t1_0 on t1_0.team_id=p1_0.team_id where p1_0.progress_id=?
+Hibernate: select p1_0.progress_id,p1_0.created_at,p1_0.name,p1_0.numbering,t1_0.team_id,t1_0.created_at,t1_0.kanban,t1_0.name,t1_0.updated_at,p1_0.updated_at from progress p1_0 left join team t1_0 on t1_0.team_id=p1_0.team_id where p1_0.progress_id=?
+2023-12-26T23:29:44.753+09:00  INFO 12604 --- [    Test worker] p.rsmmm.global.config.jwt.TokenProvider  : 토큰 : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teV9tZW1iZXIwNyIsImV4cCI6MTcwMzYwMjc4NCwiaWF0IjoxNzAzNjAwOTg0LCJhdXRob3JpdGllcyI6IlJPTEVfTUVNQkVSIiwibmFtZSI6ImR1bW15X21lbWJlcjA3In0.-jbFmzOStj_zdibUxqk54VIJN2lOvpH4AeT_bGnqK1k
 Hibernate: select m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.name=?
+Hibernate: update team_setting set invite_status=?,member_id=?,team_id=?,updated_at=? where team_setting_id=?
 Hibernate: select t1_0.team_setting_id,t1_0.created_at,t1_0.invite_status,t1_0.member_id,t1_0.team_id,t1_0.updated_at from team_setting t1_0 where t1_0.team_id=?
 Hibernate: select m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
 Hibernate: select m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
 Hibernate: select m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
 Hibernate: select m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+Hibernate: select p1_0.progress_id,p1_0.created_at,p1_0.name,p1_0.numbering,p1_0.team_id,p1_0.updated_at from progress p1_0 where p1_0.team_id=?
 Hibernate: select t1_0.team_id,t1_0.team_setting_id,t1_0.created_at,t1_0.invite_status,m1_0.member_id,m1_0.authority,m1_0.created_at,m1_0.email,m1_0.name,m1_0.password,m1_0.updated_at,t1_0.updated_at from team_setting t1_0 left join member m1_0 on m1_0.member_id=t1_0.member_id where t1_0.team_id=?
 Hibernate: select t1_0.progress_id,t1_0.ticket_id,t1_0.created_at,t1_0.due_date,t1_0.member_id,t1_0.numbering,t1_0.person_hour,t1_0.tag,t1_0.title,t1_0.updated_at from ticket t1_0 where t1_0.progress_id=?
 
 MockHttpServletRequest:
-      HTTP Method = PUT
+      HTTP Method = PATCH
       Request URI = /api/teams/1/progresses/1
        Parameters = {}
-          Headers = [Content-Type:"application/json;charset=UTF-8", Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teV9tZW1iZXIwMSIsImV4cCI6MTcwMzU5Mzk4NSwiaWF0IjoxNzAzNTkyMTg1LCJhdXRob3JpdGllcyI6IlJPTEVfTUVNQkVSIiwibmFtZSI6ImR1bW15X21lbWJlcjAxIn0.d1fDEx7PRGIz1SKKclLM97AophwBvnSAobX71mS3XpM", Content-Length:"32"]
-             Body = {"name":"Name_changed_Progress"}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teV9tZW1iZXIwNyIsImV4cCI6MTcwMzYwMjc4NCwiaWF0IjoxNzAzNjAwOTg0LCJhdXRob3JpdGllcyI6IlJPTEVfTUVNQkVSIiwibmFtZSI6ImR1bW15X21lbWJlcjA3In0.-jbFmzOStj_zdibUxqk54VIJN2lOvpH4AeT_bGnqK1k", Content-Length:"15"]
+             Body = {"numbering":2}
     Session Attrs = {}
 
 Handler:
              Type = pp.rsmmm.domain.progress.controller.ProgressController
-           Method = pp.rsmmm.domain.progress.controller.ProgressController#modifyProgressName(ProgressNameModifyDto, Long, Long)
+           Method = pp.rsmmm.domain.progress.controller.ProgressController#modifyProgressOrder(ProgressOrderModifyDto, Long, Long)
 
 Async:
     Async started = false
@@ -150,10 +154,12 @@ MockHttpServletResponse:
     Error message = null
           Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0"]
      Content type = application/json
-             Body = {"createdAt":"2023-12-26T21:03:04.609047","updatedAt":"2023-12-26T21:03:04.609047","id":1,"name":"Name_changed_Progress","numbering":1,"team":{"createdAt":"2023-12-26T21:03:04.52175","updatedAt":"2023-12-26T21:03:04.52175","id":1,"name":"team1","kanban":"kanban1","teamSettingList":[{"createdAt":"2023-12-26T21:03:04.500537","updatedAt":"2023-12-26T21:03:04.500537","id":1,"inviteStatus":"INVITING"},{"createdAt":"2023-12-26T21:03:04.530067","updatedAt":"2023-12-26T21:03:04.530067","id":5,"inviteStatus":"ACCEPTED"},{"createdAt":"2023-12-26T21:03:04.530621","updatedAt":"2023-12-26T21:03:04.530621","id":6,"inviteStatus":"ACCEPTED"},{"createdAt":"2023-12-26T21:03:04.531917","updatedAt":"2023-12-26T21:03:04.531917","id":7,"inviteStatus":"RECEIVED"},{"createdAt":"2023-12-26T21:03:04.533263","updatedAt":"2023-12-26T21:03:04.533263","id":8,"inviteStatus":"REFUSED"}]},"ticketList":[{"createdAt":"2023-12-26T21:03:04.684642","updatedAt":"2023-12-26T21:03:04.684642","id":1,"title":"A","numbering":1,"tag":"frontend","personHour":4.5,"dueDate":"2023-11-27T11:30:00","memberId":1},{"createdAt":"2023-12-26T21:03:04.69143","updatedAt":"2023-12-26T21:03:04.69143","id":2,"title":"B","numbering":2,"tag":"backend","personHour":3.5,"dueDate":"2023-11-27T15:30:00","memberId":1},{"createdAt":"2023-12-26T21:03:04.692841","updatedAt":"2023-12-26T21:03:04.692841","id":3,"title":"C","numbering":3,"tag":"database","personHour":2.5,"dueDate":"2023-11-28T11:30:00","memberId":1}]}
+             Body = {"createdAt":"2023-12-26T23:29:43.707973","updatedAt":"2023-12-26T23:29:43.707973","id":1,"name":"Progress_1","numbering":2,"team":{"createdAt":"2023-12-26T23:29:43.683138","updatedAt":"2023-12-26T23:29:43.683138","id":1,"name":"team1","kanban":"kanban1","teamSettingList":[{"createdAt":"2023-12-26T23:29:43.66302","updatedAt":"2023-12-26T23:29:43.66302","id":1,"inviteStatus":"INVITING"},{"createdAt":"2023-12-26T23:29:43.690253","updatedAt":"2023-12-26T23:29:43.690253","id":5,"inviteStatus":"ACCEPTED"},{"createdAt":"2023-12-26T23:29:43.690769","updatedAt":"2023-12-26T23:29:43.690769","id":6,"inviteStatus":"ACCEPTED"},{"createdAt":"2023-12-26T23:29:43.691864","updatedAt":"2023-12-26T23:29:44.782356","id":7,"inviteStatus":"ACCEPTED"},{"createdAt":"2023-12-26T23:29:43.693179","updatedAt":"2023-12-26T23:29:43.693179","id":8,"inviteStatus":"REFUSED"}]},"ticketList":[{"createdAt":"2023-12-26T23:29:43.717386","updatedAt":"2023-12-26T23:29:43.717386","id":1,"title":"A","numbering":1,"tag":"frontend","personHour":4.5,"dueDate":"2023-11-27T11:30:00","memberId":1},{"createdAt":"2023-12-26T23:29:43.719666","updatedAt":"2023-12-26T23:29:43.719666","id":2,"title":"B","numbering":2,"tag":"backend","personHour":3.5,"dueDate":"2023-11-27T15:30:00","memberId":1},{"createdAt":"2023-12-26T23:29:43.720191","updatedAt":"2023-12-26T23:29:43.720191","id":3,"title":"C","numbering":3,"tag":"database","personHour":2.5,"dueDate":"2023-11-28T11:30:00","memberId":1}]}
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
+2023-12-26T23:29:44.824+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [ progress1 - numbering : 2 ]
+2023-12-26T23:29:44.824+09:00  INFO 12604 --- [    Test worker] p.r.d.p.c.ProgressControllerTest         : [ progress2 - numbering : 1 ]
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,6 +1,5 @@
 package pp.rsmmm.domain.progress.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +13,7 @@ import pp.rsmmm.domain.member.entity.Member;
 import pp.rsmmm.domain.member.repository.MemberRepository;
 import pp.rsmmm.domain.progress.dto.ProgressCreateRequestDto;
 import pp.rsmmm.domain.progress.dto.ProgressNameModifyDto;
+import pp.rsmmm.domain.progress.dto.ProgressOrderModifyDto;
 import pp.rsmmm.domain.progress.entity.Progress;
 import pp.rsmmm.domain.progress.repository.ProgressRepository;
 import pp.rsmmm.domain.progress.service.ProgressService;
@@ -165,7 +165,14 @@ class ProgressControllerTest extends IntegrationTest {
         dummy_member07 = memberRepository.findByName("dummy_member07")
                 .orElseThrow(() -> new EntityNotFoundException("해당 멤버를 찾을 수 없다"));
         getAccessToken(dummy_member07);
-        Long teamId = 1L;
+        Long teamId = 1L; // dummy data로 생성된 teamId = 1번의 team에 이미 생성된 진행상황(Progress)을 대상으로 진행상황 조회할 것
+        Long teamSettingId = 7L; // dummy data로 생성된 teamSettingId = 7번의 teamSetting이 바로 memberId=7번 사용자가 teamId=1번 팀으로부터 팀원으로 초대를 받은 상태임
+        TeamSetting teamSetting = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 팀 구성을 찾을 수 없다"));
+        Long memberId = dummy_member07.getId();
+        boolean accept = true;
+        respondToInvitation(teamId, memberId, accept, teamSettingId);
+        log.info("[ 로그인 사용자 상태 : {} ]", teamSetting.getInviteStatus());
         Long progressId = 1L;
 
         // when & then
@@ -185,16 +192,11 @@ class ProgressControllerTest extends IntegrationTest {
         ProgressNameModifyDto progressNameModifyDto = new ProgressNameModifyDto();
         progressNameModifyDto.setName("Name_changed_Progress");
 
-        // 테스트에서 PUT 요청을 보낼 때, @RequestBody로 받는 객체는 .content() 메소드와 MockMvcRequestBuilders의 .put() 메소드를 함께 사용해서 JSON 형식으로 전달
-        // ObjectMapper를 사용하여 DTO 객체를 JSON 문자열로 변환할 수 있다.
-        ObjectMapper objectMapper = new ObjectMapper();
-        String progressNameModifyDtoJson = objectMapper.writeValueAsString(progressNameModifyDto);
-
         // when
         mvc.perform(put("/api/teams/" + teamId + "/progresses/" + progressId)
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(progressNameModifyDtoJson)
+                .content(objectMapper.writeValueAsString(progressNameModifyDto))
                 )
                 // then
                 .andDo(print())
@@ -206,6 +208,123 @@ class ProgressControllerTest extends IntegrationTest {
 
                             // 이름이 바뀌었는지 확인
                             Assertions.assertEquals("Name_changed_Progress", modifiedProgress.getName());
+                });
+    }
+
+    @DisplayName("팀원이 진행상황 이름 변경 - 실패")
+    @Test
+    void modifyProgressNameByTeamMate_fail() throws Exception {
+        // given : dummy data 중, memberId=1번 사용자가 teamId=1번 팀, progressId=1번 진행상황을 생성
+        dummy_member07 = memberRepository.findByName("dummy_member07")
+                .orElseThrow(() -> new EntityNotFoundException("해당 멤버를 찾을 수 없다"));
+        getAccessToken(dummy_member07);
+        Long teamId = 1L; // dummy data로 생성된 teamId = 1번의 team에 이미 생성된 진행상황(Progress)을 대상으로 진행상황 조회할 것
+        Long teamSettingId = 7L; // dummy data로 생성된 teamSettingId = 7번의 teamSetting이 바로 memberId=7번 사용자가 teamId=1번 팀으로부터 팀원으로 초대를 받은 상태임
+        TeamSetting teamSetting = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 팀 구성을 찾을 수 없다"));
+        Long memberId = dummy_member07.getId();
+        boolean accept = true;
+        respondToInvitation(teamId, memberId, accept, teamSettingId);
+        log.info("[ 로그인 사용자 상태 : {} ]", teamSetting.getInviteStatus());
+        Long progressId = 1L;
+
+        ProgressNameModifyDto progressNameModifyDto = new ProgressNameModifyDto();
+        progressNameModifyDto.setName("Name_changed_Progress");
+
+        // when & then
+        assertThrows(EntityNotFoundException.class, () -> progressService.modifyProgressName(progressNameModifyDto, teamId, progressId));
+    }
+
+    @DisplayName("팀장이 진행상황 순서 변경 - 성공")
+    @Test
+    void modifyProgressOrderByTeamLeader_succeed() throws Exception {
+        // given : dummy data 중, memberId=1번 사용자가 teamId=1번 팀, progressId=1번 진행상황을 생성
+        dummy_member01 = memberRepository.findByName("dummy_member01")
+                .orElseThrow(() -> new EntityNotFoundException("해당 멤버를 찾을 수 없다"));
+        getAccessToken(dummy_member01);
+        Long teamId = 1L;
+
+        Progress progress1 = progressRepository.findById(1L)
+                .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+        Progress progress2 = progressRepository.findById(2L)
+                .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+
+        ProgressOrderModifyDto progressOrderModifyDto = new ProgressOrderModifyDto();
+        progressOrderModifyDto.setNumbering(2);
+
+        // when
+        mvc.perform(patch("/api/teams/" + teamId + "/progresses/" + progress1.getId())
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(progressOrderModifyDto))
+                )
+                // then
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(result -> {
+                    // 데이터베이스에서 수정된 진행상황을 찾음
+                    Progress modifiedProgress1 = progressRepository.findById(progress1.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+                    Progress modifiedProgress2 = progressRepository.findById(progress2.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+
+
+                    // 순서가 바뀌었는지 확인
+                    assertEquals(2, modifiedProgress1.getNumbering());
+                    assertEquals(1, modifiedProgress2.getNumbering());
+
+                    log.info("[ progress1 - numbering : {} ]", modifiedProgress1.getNumbering());
+                    log.info("[ progress2 - numbering : {} ]", modifiedProgress2.getNumbering());
+                });
+    }
+
+    @DisplayName("팀원이 진행상황 순서 변경 - 성공")
+    @Test
+    void modifyProgressOrderByTeamMate_succeed() throws Exception {
+        // given : dummy data 중, memberId=1번 사용자가 teamId=1번 팀, progressId=1번 진행상황을 생성
+        dummy_member07 = memberRepository.findByName("dummy_member07")
+                .orElseThrow(() -> new EntityNotFoundException("해당 멤버를 찾을 수 없다"));
+        getAccessToken(dummy_member07);
+        Long teamId = 1L; // dummy data로 생성된 teamId = 1번의 team에 이미 생성된 진행상황(Progress)을 대상으로 진행상황 조회할 것
+        Long teamSettingId = 7L; // dummy data로 생성된 teamSettingId = 7번의 teamSetting이 바로 memberId=7번 사용자가 teamId=1번 팀으로부터 팀원으로 초대를 받은 상태임
+        TeamSetting teamSetting = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 팀 구성을 찾을 수 없다"));
+        Long memberId = dummy_member07.getId();
+        boolean accept = true;
+        respondToInvitation(teamId, memberId, accept, teamSettingId);
+        log.info("[ 로그인 사용자 상태 : {} ]", teamSetting.getInviteStatus());
+
+        Progress progress1 = progressRepository.findById(1L)
+                .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+        Progress progress2 = progressRepository.findById(2L)
+                .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+
+        ProgressOrderModifyDto progressOrderModifyDto = new ProgressOrderModifyDto();
+        progressOrderModifyDto.setNumbering(2);
+
+        // when
+        mvc.perform(patch("/api/teams/" + teamId + "/progresses/" + progress1.getId())
+                        .headers(headers)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(progressOrderModifyDto))
+                )
+                // then
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(result -> {
+                    // 데이터베이스에서 수정된 진행상황을 찾음
+                    Progress modifiedProgress1 = progressRepository.findById(progress1.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+                    Progress modifiedProgress2 = progressRepository.findById(progress2.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("해당 진행상황을 찾을 수 없다"));
+
+
+                    // 순서가 바뀌었는지 확인
+                    assertEquals(2, modifiedProgress1.getNumbering());
+                    assertEquals(1, modifiedProgress2.getNumbering());
+
+                    log.info("[ progress1 - numbering : {} ]", modifiedProgress1.getNumbering());
+                    log.info("[ progress2 - numbering : {} ]", modifiedProgress2.getNumbering());
                 });
     }
 
