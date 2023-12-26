@@ -39,8 +39,6 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity<TeamSetting> getTeam(@PathVariable Long teamId) {
         TeamSetting teamSetting = teamService.getTeam(teamId);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
         return ResponseEntity.ok(teamSetting);
     }
 

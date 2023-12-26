@@ -68,7 +68,7 @@ class TeamControllerTest extends IntegrationTest {
         membersSetUp();
         getAccessToken(teamLeader);
         TeamCreateRequestDto teamCreateRequestDto = new TeamCreateRequestDto("testTeam", "testKanban");
-        System.out.println("<teamCreateRequestDto>" + String.valueOf(teamCreateRequestDto));
+        log.info("<teamCreateRequestDto>" + String.valueOf(teamCreateRequestDto));
 
         // when
         mvc.perform(post("/api/teams/create")
@@ -256,7 +256,7 @@ class TeamControllerTest extends IntegrationTest {
     // 다른 테스트 방법을 찾아야 한다.
     @DisplayName("팀원이 아닌 사용자가 팀 조회 - 실패(권한없음)")
     @Test
-    public void getTeamByNotTeamMemeber_succeed() throws Exception {
+    public void getTeamByNotTeamMemeber_fail() throws Exception {
         // given
         membersSetUp();
         getAccessToken(teamLeader);
@@ -277,7 +277,7 @@ class TeamControllerTest extends IntegrationTest {
         assertThrows(EntityNotFoundException.class, () -> teamService.getTeam(teamId));
     }
 
-    void membersSetUp() throws Exception {
+    private void membersSetUp() throws Exception {
         teamLeader = createMember("teamLeader");
         teamMate = createMember("teamMate");
         notTeamMember = createMember("notTeamMember");
@@ -409,7 +409,7 @@ class TeamControllerTest extends IntegrationTest {
         return addedTeamSetting;
     }
 
-    public TeamSetting respondToInvitation(Long teamId, Long inviteeId, boolean accept, Long teamSettingId) {
+    private TeamSetting respondToInvitation(Long teamId, Long inviteeId, boolean accept, Long teamSettingId) {
         // 팀 및 팀구성이 존재하는지 확인
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀이 존재하지 않거나 찾을 수 없습니다."));
