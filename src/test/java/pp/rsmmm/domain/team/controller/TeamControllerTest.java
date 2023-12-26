@@ -144,7 +144,8 @@ class TeamControllerTest extends IntegrationTest {
     public void acceptInvitation_succeed() throws Exception {
         // given
         membersSetUp();
-        getAccessToken(teamLeader);
+        String accessToken = getAccessToken(teamLeader);
+        log.info("[ token : {} ]", accessToken);
         ArrayList<Long> ids = createTeam(teamLeader);
         Long teamId = ids.get(0);
         Long teamSettingId = ids.get(1);
@@ -205,6 +206,10 @@ class TeamControllerTest extends IntegrationTest {
         getAccessToken(teamLeader);
         ArrayList<Long> ids = createTeam(teamLeader);
         Long teamId = ids.get(0);
+        Long teamSettingId = ids.get(1);
+        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
+        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
 
         // when
         mvc.perform(get("/api/teams/" + teamId)
@@ -249,28 +254,28 @@ class TeamControllerTest extends IntegrationTest {
 
     // 아래 테스트는 성공하지만 (토큰으로 사용자 인증 후, 권한 없음이 판명되는 것이 아닌) 토큰 자체에 문제가 있어서 예외가 던져지면서 테스트가 성공하므로
     // 다른 테스트 방법을 찾아야 한다.
-//    @DisplayName("팀원이 아닌 사용자가 팀 조회 - 실패(권한없음)")
-//    @Test
-//    public void getTeamByNotTeamMemeber_succeed() throws Exception {
-//        // given
-//        membersSetUp();
-//        getAccessToken(teamLeader);
-//        ArrayList<Long> ids = createTeam(teamLeader);
-//        Long teamId = ids.get(0);
-//        Long teamSettingId = ids.get(1);
-//        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
-//                .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
-//        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
-//        TeamSetting teamSetting2 = sendInvitation(teamId, teamSettingId, notTeamMember.getName());
-//        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
-//        getAccessToken(notTeamMember);
-//        boolean accept = false;
-//        TeamSetting teamSetting3 = respondToInvitation(teamId, notTeamMember.getId(), accept, teamSetting2.getId());
-//        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting3.getId(), teamSetting3.getInviteStatus());
-//
-//        // when & then
-//        assertThrows(EntityNotFoundException.class, () -> teamService.getTeam(teamId));
-//    }
+    @DisplayName("팀원이 아닌 사용자가 팀 조회 - 실패(권한없음)")
+    @Test
+    public void getTeamByNotTeamMemeber_succeed() throws Exception {
+        // given
+        membersSetUp();
+        getAccessToken(teamLeader);
+        ArrayList<Long> ids = createTeam(teamLeader);
+        Long teamId = ids.get(0);
+        Long teamSettingId = ids.get(1);
+        TeamSetting teamSetting1 = teamSettingRepository.findById(teamSettingId)
+                .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않음"));
+        log.info("[ teamSetting Id : {} / teamLeader의 상태 : {} ]", teamSettingId, teamSetting1.getInviteStatus());
+        TeamSetting teamSetting2 = sendInvitation(teamId, teamSettingId, notTeamMember.getName());
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting2.getId(), teamSetting2.getInviteStatus());
+        getAccessToken(notTeamMember);
+        boolean accept = false;
+        TeamSetting teamSetting3 = respondToInvitation(teamId, notTeamMember.getId(), accept, teamSetting2.getId());
+        log.info("[ teamSetting Id : {} / teamMate의 상태 : {} ]", teamSetting3.getId(), teamSetting3.getInviteStatus());
+
+        // when & then
+        assertThrows(EntityNotFoundException.class, () -> teamService.getTeam(teamId));
+    }
 
     void membersSetUp() throws Exception {
         teamLeader = createMember("teamLeader");
@@ -323,7 +328,7 @@ class TeamControllerTest extends IntegrationTest {
         return null;
     }
 
-    private void getAccessToken(Member member) throws Exception {
+    private String getAccessToken(Member member) throws Exception {
         log.info("[member : {}", member.getName());
         String tokenType = "access";
         String accessToken = tokenProvider.issueToken(member, tokenType);
@@ -337,6 +342,8 @@ class TeamControllerTest extends IntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + accessToken);  // Bearer는 토큰 타입이며, 필요에 따라 다르게 설정할 수 있다.
         log.info("[Headers] ; {}", String.valueOf(headers));
+
+        return String.valueOf(accessToken);
     }
 
     private ArrayList<Long> createTeam(Member teamLeader) {
@@ -369,6 +376,7 @@ class TeamControllerTest extends IntegrationTest {
 
         // 현재 로그인한 사용자가 팀 리더인지 확인
         String memberName = tokenProvider.getMemberNameFromToken();
+        log.info("[ 멤버 이름 : {} ]", memberName);
         List<TeamSetting> teamSettings = null;
         try {
             teamSettings = teamSettingRepository.findByMember_Name(memberName);
@@ -405,7 +413,6 @@ class TeamControllerTest extends IntegrationTest {
         // 팀 및 팀구성이 존재하는지 확인
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀이 존재하지 않거나 찾을 수 없습니다."));
-
 
         TeamSetting teamSetting = teamSettingRepository.findById(teamSettingId)
                 .orElseThrow(() -> new EntityNotFoundException("팀 구성이 존재하지 않거나 찾을 수 없습니다."));
