@@ -36,6 +36,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 class ProgressControllerTest extends IntegrationTest {
 
+    /*
+    이 테스트 클래스는 스프링 서버 구동과 동시에 생성되는 dummy data를 대상으로 진행됨.
+    테스트 메서드 내 dummy data활용은 주석으로 표시하였음.
+     */
+
     @Autowired
     TokenProvider tokenProvider;
 
