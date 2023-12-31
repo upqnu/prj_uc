@@ -1,6 +1,9 @@
 package pp.rsmmm.domain.team.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pp.rsmmm.domain.team.dto.TeamCreateRequestDto;
@@ -18,7 +21,7 @@ public class TeamController {
     private final TeamSettingService teamSettingService;
 
     /**
-     * 팀 & 팀구성생성
+     * 팀 & 팀구성 생성
      * @param teamCreateRequestDto
      * @return
      */

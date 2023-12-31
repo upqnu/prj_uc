@@ -17,4 +17,6 @@ public interface TeamSettingRepository extends JpaRepository<TeamSetting, Long> 
     List<TeamSetting> findByMember(Member member);
 
     List<TeamSetting> findByTeam(Team team);
+
+    TeamSetting findByTeamId(Long teamId);
 }

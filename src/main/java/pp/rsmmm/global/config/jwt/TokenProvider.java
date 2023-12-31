@@ -173,7 +173,7 @@ public class TokenProvider implements InitializingBean {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7); // "Bearer " 프리픽스 제거
                 Claims claims = getClaims(token);
-                return claims.get("name", String.class); // 토큰 생성 시, subject에 memberName을 입
+                return claims.get("name", String.class); // 토큰 생성 시 subject에 입력된 memberName을 가져온다
             } else {
                 log.info("사용자 인증에 필요한 토큰이 없거나 제대로 된 형태가 아닙니다.");
                 return null;

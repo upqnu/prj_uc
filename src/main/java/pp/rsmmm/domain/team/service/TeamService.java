@@ -107,6 +107,7 @@ public class TeamService {
             return teamSetting;
         }
 
+//        throw new EntityNotFoundException("팀을 조회할 수 없습니다.");
         return null;
     }
 
