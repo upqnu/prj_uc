@@ -57,7 +57,7 @@
 - 사용자(Member), 팀(Team), 작업상황(Progress), 티켓(Ticket) 대상으로 16개의 API 구현
   
 <details>
-<summary>1st phase (2023.11.16~11.24) ; 사용자 생성 및 JWT를 통한 인증, (프로젝트 진행할) 팀 생성 및 구성, 작업상황 및 티켓 구현을 통해  서비스 구현</summary>
+<summary>1st phase (2023.11.16~11.24) ; 사용자 생성 및 JWT를 통한 인증, (프로젝트 진행할) 팀 생성 및 구성, 작업상황 및 티켓 구현을 통해  서비스 구현</summary>  
 
 1. 사용자 회원가입 및 <u>**JWT**를 통한 사용자 인증</u> 구현
     - 사용자 로그인과 동시에 액세스 토큰 발급 후, API 요청 헤더에 담아 사용자 인증
@@ -94,13 +94,42 @@
 </details>
 
 <details>
-<summary>2nd phase (2023.12. 1~현재) ; 메서드 모듈화를 통해 코드 중복 제거, Test code 작성, Swagger 도입</summary>
+<summary>2nd phase (2023.12. 1~현재) ; 메서드 모듈화를 통해 코드 중복 제거, Test code 작성, Swagger 도입</summary>  
   
 1. 메서드 모듈화를 통해 코드 중복 제거  
     - 1st phase에서 진행상황(Progress), 티켓(Ticket)의 Service 클래스에 작성된 메서드들은 내부에는 많은 중복이 존재. 이를 별도의 메서드로 작성하여 중복 제거.  
         - 중복되는 로직 : (1) 팀, 진행상황, 티켓의 존재 여부 (2) 로그인한 사용자의 팀내에서의 역할  
         - 중복 로직을 별도의 메서드로 작성하여 제거  
     - 개선 결과 : 총 9개의 비즈니스 로직 담당 메서드 별 최소 5라인, 최대 13라인의 코드 감소 및 가독성 개선  
+  
+  
+2. 유닛 테스트 코드 작성
+    - 대상 : TokenProvider / MemberController, TeamController, ProgressController, TicketController
+    - 구현 방식 : 모든 테스트 클래스는 IntegrationTest (클래스)를 상속 받음
+        - 웹 애플리케이션의 테스트를 위한 가짜 HTTP(Mock) 요청을 생성하고 응답을 검증하는 데 사용되는 MockMvc를 자동으로 구성
+        - 각각의 테스트가 독립적으로 실행되고 데이터베이스에 영향을 주지 않도록 @Transactional 선언
+    - 테스트 내용
+        - TokenProviderTest : 토큰 서명부(signature) 생성, 액세스 토큰 생성, 토큰 검증(성공, 실패 모두 테스트), 토큰을 통한 인증정보 확인, 발급된 토큰을 통해 사용자 이름 확인
+        - MemberControllerTest : 회원 가입, 로그인 및 액세스 토큰 발급, 액세스 토큰 재생성(기한연장)
+        - TeamControllerTest : 팀 생성, 다른 사용자를 팀원으로 초대, 초대에 승락 및 거절, 팀장이 팀 조회, 팀원이 팀 조회, 팀 멤버가 아닌 사용자의 팀 조회(실패 테스트)
+        - ProgressControllerTest : 진행상황 생성, 진행상황 조회(팀장, 팀원), 진행상황 삭제(팀장은 성공, 팀원은 실패), 진행상황 이름 수정(팀장은 성공, 팀원은 실패), 진행상황 순서 변경(팀장은 성공, 팀원은 실패)
+        - TicketControllerTest : 티켓 생성(팀장, 팀원), 티켓 삭제(팀장, 팀원), 티켓 수정(팀장, 팀원), 티켓 순서 변경(팀장, 팀원)
+
+
+3. Swagger 설정
+    - 설정 : build.gradle에 아래와 같이 Swagger 사용을 위한 의존성 작성 (application.yml에 springdoc 설정 및 SwaggerConfig을 생성하지 않아도 된다)
+        ```
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' 
+        ```
+        spring boot 3버전은 springdoc-openapi 2버전을 사용해야 하기에 위와 같이 의존성 주입
+    - MemberController, TeamController, ProgressController, TicketController 및 콘트롤러 내부의 API의 역할 및 세부정보를 Swagger에 표시
+    <details>
+    <summary>Swagger 구현</summary>
+
+    ![image](https://github.com/upqnu/prj_uc/assets/101033614/85bba3cb-c32c-45cc-b8f6-3f74808c1263)
+    ![image](https://github.com/upqnu/prj_uc/assets/101033614/5fca2bbb-43d9-4ab7-a2df-f3021d57b38a)
+    </details>
+    
 </details>
   
 ## 6.트러블 슈팅 & TIL
