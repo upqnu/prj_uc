@@ -25,7 +25,7 @@ public class TeamSettingService {
     private final TokenProvider tokenProvider;
 
     /**
-     * 팀구성(TeamSetting) 생성 로직
+     * 팀구성(TeamSetting) 생성 로직(특정 사용자가 Team 생성 시, 자동적으로 해당 팀의 팀장이 되도록 동시에 이 메서드가 실행됨)
      * @param member
      * @param team
      */
@@ -48,8 +48,7 @@ public class TeamSettingService {
     @Transactional
     public void sendInvitation(Long teamId, String invitedMemberName) {
         // team 찾기
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+        Team team = findTeam(teamId);
 
         // 현재 로그인한 사용자가 팀 리더인지 확인
         String memberName = tokenProvider.getMemberNameFromToken();
@@ -59,7 +58,6 @@ public class TeamSettingService {
         } catch (EntityNotFoundException e) {
             System.out.println("당신이 속한 팀이 존재하지 않습니다.");
         }
-        System.out.println("teamSettings : " + String.valueOf(teamSettings));
 
         for (TeamSetting teamSetting : teamSettings) {
             if (teamSetting.getTeam() != team) {
@@ -84,11 +82,16 @@ public class TeamSettingService {
         teamSettingRepository.save(addedTeamSetting);
     }
 
+    /**
+     * 팀원으로의 초대에 승낙 또는 거절
+     * @param teamId
+     * @param inviteeId
+     * @param accept
+     */
     @Transactional
     public void respondToInvitation(Long teamId, Long inviteeId, boolean accept) {
         // 팀 및 팀구성이 존재하는지 확인
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀이 존재하지 않거나 찾을 수 없습니다."));
+        Team team = findTeam(teamId);
 
         List<TeamSetting> teamSettings = null;
         try {
@@ -128,6 +131,16 @@ public class TeamSettingService {
 
     }
 
+    /**
+     * 팀 존재여부 확인
+     * @param teamId
+     * @return
+     */
+    private Team findTeam(Long teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("팀이 존재하지 않거나 찾을 수 없습니다."));
 
+        return team;
+    }
 
 }
