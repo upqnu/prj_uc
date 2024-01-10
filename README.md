@@ -114,6 +114,22 @@
         - TeamControllerTest : 팀 생성, 다른 사용자를 팀원으로 초대, 초대에 승락 및 거절, 팀장이 팀 조회, 팀원이 팀 조회, 팀 멤버가 아닌 사용자의 팀 조회(실패 테스트)
         - ProgressControllerTest : 진행상황 생성, 진행상황 조회(팀장, 팀원), 진행상황 삭제(팀장은 성공, 팀원은 실패), 진행상황 이름 수정(팀장은 성공, 팀원은 실패), 진행상황 순서 변경(팀장은 성공, 팀원은 실패)
         - TicketControllerTest : 티켓 생성(팀장, 팀원), 티켓 삭제(팀장, 팀원), 티켓 수정(팀장, 팀원), 티켓 순서 변경(팀장, 팀원)
+
+
+3. Swagger 설정
+    - 설정 : build.gradle에 아래와 같이 Swagger 사용을 위한 의존성 작성 (application.yml에 springdoc 설정 및 SwaggerConfig을 생성하지 않아도 된다)
+        ```
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' 
+        ```
+        spring boot 3버전은 springdoc-openapi 2버전을 사용해야 하기에 위와 같이 의존성 주입
+    - MemberController, TeamController, ProgressController, TicketController 및 콘트롤러 내부의 API의 역할 및 세부정보를 Swagger에 표시
+    <details>
+    <summary>Swagger 구현</summary>
+
+    ![image](https://github.com/upqnu/prj_uc/assets/101033614/85bba3cb-c32c-45cc-b8f6-3f74808c1263)
+    ![image](https://github.com/upqnu/prj_uc/assets/101033614/5fca2bbb-43d9-4ab7-a2df-f3021d57b38a)
+    </details>
+    
 </details>
   
 ## 6.트러블 슈팅 & TIL
